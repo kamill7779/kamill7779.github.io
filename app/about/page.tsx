@@ -209,7 +209,7 @@ export default function Page() {
         <div className="flex flex-wrap justify-center gap-4">
           <a
             href={`mailto:${siteMetadata.email || '#'}`}
-            className="bg-primary text-on-primary-contrast flex items-center gap-3 rounded-md px-8 py-4 font-bold transition-all active:scale-95"
+            className="bg-primary flex items-center gap-3 rounded-md px-8 py-4 font-bold text-white transition-all active:scale-95"
           >
             <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
               mail

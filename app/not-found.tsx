@@ -15,13 +15,13 @@ export default function NotFound() {
       <div className="flex gap-4">
         <Link
           href="/"
-          className="bg-primary text-on-primary-contrast rounded-md px-8 py-4 font-bold transition-all active:scale-95"
+          className="bg-primary rounded-md px-8 py-4 font-bold text-white transition-all active:scale-95"
         >
           Back to Home
         </Link>
         <Link
           href="/blog"
-          className="bg-surface-container-lowest text-primary-contrast hover:bg-surface-container-high rounded-md px-8 py-4 font-bold transition-all active:scale-95 dark:bg-stone-800 dark:text-white"
+          className="rounded-md bg-white px-8 py-4 font-bold text-black transition-all hover:bg-gray-100 active:scale-95 dark:bg-stone-800 dark:text-white dark:hover:bg-stone-700"
         >
           Browse Archive
         </Link>
