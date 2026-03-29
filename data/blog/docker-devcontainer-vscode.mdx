@@ -410,7 +410,7 @@ docker info
 
 - **Docker Desktop（Windows/macOS）**：在 Settings 里配置（不同版本入口略有差异，一般在 Docker Engine 或 Registry mirrors）
 
-  ![image-20260204225612339](/assets/posts/devcontainer-docker-vscode/image-20260204225612339.png)
+  ![image-20260204225612339](/static/images/posts/devcontainer-docker-vscode/image-20260204225612339.png)
 
 `daemon.json` 示例（把 mirror 地址换成我们实际要用的）：
 
@@ -497,9 +497,9 @@ VS Code 连接开发容器依赖一个扩展：**Dev Containers**。 它的工�
 
 > 我们在项目里放一个配置文件，告诉 VS Code：这个项目应该用哪个容器打开；VS Code 会负责构建、启动并连接进去。
 
-![image-20260204222457847](/assets/posts/devcontainer-docker-vscode/image-20260204222457847.png)
+![image-20260204222457847](/static/images/posts/devcontainer-docker-vscode/image-20260204222457847.png)
 
-![image-20260204223134403](/assets/posts/devcontainer-docker-vscode/image-20260204223134403.png)
+![image-20260204223134403](/static/images/posts/devcontainer-docker-vscode/image-20260204223134403.png)
 
 
 这个配置文件通常放在项目根目录的 `.devcontainer/` 下面，名字叫 `devcontainer.json`。
