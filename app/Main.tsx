@@ -16,12 +16,12 @@ export default function Home({ posts }) {
         <div className="editorial-grid">
           <div>
             <p className="text-secondary mb-4 font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase">
-              The Curator&apos;s Desk
+              技术笔记与思考
             </p>
           </div>
           <div>
             <h1 className="text-primary mb-8 max-w-2xl text-[3.5rem] leading-[1.1] font-black tracking-tighter dark:text-white">
-              Technical explorations into the architecture of the web.
+              探索技术，记录思考，分享构建数字世界的另一种可能。
             </h1>
             <div className="text-on-surface-variant max-w-xl text-lg leading-relaxed dark:text-stone-400">
               {siteMetadata.description}
@@ -36,7 +36,7 @@ export default function Home({ posts }) {
           <div className="editorial-grid mb-12 items-end">
             <div>
               <h2 className="text-secondary font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase">
-                Featured Discourse
+                精选文章
               </h2>
             </div>
             <div className="bg-outline-variant/20 mb-1 h-px w-full dark:bg-white/10"></div>
@@ -104,7 +104,7 @@ export default function Home({ posts }) {
         <div className="editorial-grid mb-16 items-end">
           <div>
             <h2 className="text-secondary font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase">
-              Recent Logs
+              最新文章
             </h2>
           </div>
         </div>
@@ -151,7 +151,7 @@ export default function Home({ posts }) {
               href="/blog"
               className="flex items-center gap-4 text-sm font-bold tracking-tight transition-opacity hover:opacity-70 dark:text-white"
             >
-              VIEW FULL ARCHIVE
+              查看完整归档
               <span className="bg-primary h-px w-12 dark:bg-white"></span>
             </Link>
           </div>
