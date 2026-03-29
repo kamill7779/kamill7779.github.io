@@ -1,5 +1,12 @@
 {
   "hello": 1,
+  "network": 1,
+  "socket": 1,
+  "liso": 1,
+  "http": 1,
+  "docker": 1,
+  "vscode": 1,
+  "devcontainer": 1,
   "markdown": 1,
   "code": 1,
   "features": 1
