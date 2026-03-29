@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import Tag from '@/components/Tag'
 import FadeIn from '@/components/FadeIn'
