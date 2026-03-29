@@ -16,39 +16,33 @@ export default function TopNavBar() {
   const darkMode = theme === 'dark'
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/70 dark:bg-stone-950/70 backdrop-blur-xl transition-all h-20 border-b border-outline-variant/5">
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-8 h-full">
-        <Link
-          href="/"
-          className="text-xl font-black tracking-tighter text-black dark:text-white"
-        >
+    <nav className="border-outline-variant/5 fixed top-0 z-50 h-20 w-full border-b bg-white/70 backdrop-blur-xl transition-all dark:bg-stone-950/70">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-8">
+        <Link href="/" className="text-xl font-black tracking-tighter text-black dark:text-white">
           Kamil's Blog
         </Link>
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-8 md:flex">
           {headerNavLinks.map((link) => {
-            const isActive =
-              link.href === '/'
-                ? pathname === '/'
-                : pathname.startsWith(link.href)
+            const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`${
                   isActive
-                    ? 'text-black dark:text-white font-bold border-b-2 border-black dark:border-white pb-1'
-                    : 'text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-white'
-                } transition-colors font-[family-name:var(--font-inter)] antialiased tracking-tight`}
+                    ? 'border-b-2 border-black pb-1 font-bold text-black dark:border-white dark:text-white'
+                    : 'text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white'
+                } font-[family-name:var(--font-inter)] tracking-tight antialiased transition-colors`}
               >
                 {link.title}
               </Link>
             )
           })}
-          <div className="flex items-center gap-4 ml-4">
+          <div className="ml-4 flex items-center gap-4">
             {mounted && (
               <button
                 onClick={() => setTheme(darkMode ? 'light' : 'dark')}
-                className="hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 rounded-full"
+                className="rounded-full p-2 transition-opacity duration-150 hover:opacity-80 active:scale-95"
                 aria-label="Toggle dark mode"
               >
                 <span className="material-symbols-outlined text-black dark:text-white">

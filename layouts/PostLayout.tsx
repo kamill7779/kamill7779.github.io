@@ -15,22 +15,16 @@ interface LayoutProps {
   children: ReactNode
 }
 
-export default function PostLayout({
-  content,
-  authorDetails,
-  next,
-  prev,
-  children,
-}: LayoutProps) {
+export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
   const { path, slug, date, title, tags, summary } = content
 
   return (
     <main className="pt-32 pb-24">
       {/* Back link */}
-      <div className="max-w-7xl mx-auto px-8 mb-16">
+      <div className="mx-auto mb-16 max-w-7xl px-8">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 group text-stone-500 hover:text-primary dark:hover:text-white transition-colors"
+          className="group hover:text-primary inline-flex items-center gap-2 text-stone-500 transition-colors dark:hover:text-white"
         >
           <span className="material-symbols-outlined text-sm transition-transform group-hover:-translate-x-1">
             arrow_back
@@ -41,24 +35,30 @@ export default function PostLayout({
         </Link>
       </div>
 
-      <article className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <article className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-8 lg:grid-cols-12">
         {/* Sidebar */}
-        <aside className="lg:col-span-3 order-2 lg:order-1">
+        <aside className="order-2 lg:order-1 lg:col-span-3">
           <div className="sticky top-32 space-y-12">
             {/* Author */}
             <div className="space-y-4">
-              <h4 className="font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase text-stone-400">
+              <h4 className="font-[family-name:var(--font-manrope)] text-xs tracking-widest text-stone-400 uppercase">
                 Curator
               </h4>
               {authorDetails.map((author) => (
                 <div key={author.name} className="flex items-center gap-3">
                   {author.avatar && (
-                    <div className="w-10 h-10 rounded-full bg-surface-container-high dark:bg-stone-800 overflow-hidden">
-                      <Image src={author.avatar} width={40} height={40} alt={author.name} className="w-full h-full object-cover" />
+                    <div className="bg-surface-container-high h-10 w-10 overflow-hidden rounded-full dark:bg-stone-800">
+                      <Image
+                        src={author.avatar}
+                        width={40}
+                        height={40}
+                        alt={author.name}
+                        className="h-full w-full object-cover"
+                      />
                     </div>
                   )}
                   <div>
-                    <p className="font-bold text-sm dark:text-white">{author.name}</p>
+                    <p className="text-sm font-bold dark:text-white">{author.name}</p>
                   </div>
                 </div>
               ))}
@@ -67,7 +67,7 @@ export default function PostLayout({
             {/* Meta */}
             <div className="space-y-6">
               <div className="space-y-1">
-                <h4 className="font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase text-stone-400">
+                <h4 className="font-[family-name:var(--font-manrope)] text-xs tracking-widest text-stone-400 uppercase">
                   Published
                 </h4>
                 <p className="text-sm font-medium dark:text-stone-300">
@@ -76,13 +76,13 @@ export default function PostLayout({
               </div>
               {/* Tags */}
               {tags && tags.length > 0 && (
-                <div className="pt-4 border-t border-outline-variant/20">
+                <div className="border-outline-variant/20 border-t pt-4">
                   <div className="flex flex-wrap gap-2">
                     {tags.map((tag) => (
                       <Link
                         key={tag}
                         href={`/tags/${tag}`}
-                        className="bg-surface-container-lowest dark:bg-stone-900 text-[10px] font-[family-name:var(--font-manrope)] px-2 py-1 tracking-wider uppercase border border-outline-variant/30 dark:text-stone-500 hover:bg-primary hover:text-on-primary transition-all"
+                        className="bg-surface-container-lowest border-outline-variant/30 hover:bg-primary hover:text-on-primary border px-2 py-1 font-[family-name:var(--font-manrope)] text-[10px] tracking-wider uppercase transition-all dark:bg-stone-900 dark:text-stone-500"
                       >
                         {tag}
                       </Link>
@@ -94,15 +94,15 @@ export default function PostLayout({
 
             {/* Prev/Next navigation */}
             {(prev || next) && (
-              <div className="pt-4 border-t border-outline-variant/20 space-y-4">
+              <div className="border-outline-variant/20 space-y-4 border-t pt-4">
                 {prev && prev.path && (
                   <div>
-                    <h4 className="font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase text-stone-400 mb-1">
+                    <h4 className="mb-1 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest text-stone-400 uppercase">
                       Previous
                     </h4>
                     <Link
                       href={`/${prev.path}`}
-                      className="text-sm font-medium hover:text-primary dark:hover:text-white transition-colors dark:text-stone-300"
+                      className="hover:text-primary text-sm font-medium transition-colors dark:text-stone-300 dark:hover:text-white"
                     >
                       {prev.title}
                     </Link>
@@ -110,12 +110,12 @@ export default function PostLayout({
                 )}
                 {next && next.path && (
                   <div>
-                    <h4 className="font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase text-stone-400 mb-1">
+                    <h4 className="mb-1 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest text-stone-400 uppercase">
                       Next
                     </h4>
                     <Link
                       href={`/${next.path}`}
-                      className="text-sm font-medium hover:text-primary dark:hover:text-white transition-colors dark:text-stone-300"
+                      className="hover:text-primary text-sm font-medium transition-colors dark:text-stone-300 dark:hover:text-white"
                     >
                       {next.title}
                     </Link>
@@ -127,24 +127,22 @@ export default function PostLayout({
         </aside>
 
         {/* Main content */}
-        <div className="lg:col-span-8 lg:col-start-5 order-1 lg:order-2">
+        <div className="order-1 lg:order-2 lg:col-span-8 lg:col-start-5">
           <header className="mb-20">
-            <h1 className="text-5xl md:text-6xl font-black tracking-tighter leading-[1.1] mb-8 text-primary dark:text-white">
+            <h1 className="text-primary mb-8 text-5xl leading-[1.1] font-black tracking-tighter md:text-6xl dark:text-white">
               {title}
             </h1>
             {summary && (
-              <p className="text-xl text-stone-500 dark:text-stone-400 font-light leading-relaxed max-w-2xl">
+              <p className="max-w-2xl text-xl leading-relaxed font-light text-stone-500 dark:text-stone-400">
                 {summary}
               </p>
             )}
           </header>
-          <div className="prose max-w-none text-on-surface dark:text-stone-300">
-            {children}
-          </div>
+          <div className="prose text-on-surface max-w-none dark:text-stone-300">{children}</div>
 
           {/* Comments */}
           {siteMetadata.comments && (
-            <div className="mt-24 pt-12 border-t border-outline-variant/20" id="comment">
+            <div className="border-outline-variant/20 mt-24 border-t pt-12" id="comment">
               <Comments slug={slug} />
             </div>
           )}

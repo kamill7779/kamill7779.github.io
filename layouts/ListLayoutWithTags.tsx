@@ -28,20 +28,20 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
       {prevPage ? (
         <Link
           href={currentPage - 1 === 1 ? '/blog/' : `/blog/page/${currentPage - 1}`}
-          className="text-sm font-bold tracking-tight hover:opacity-70 transition-opacity dark:text-white"
+          className="text-sm font-bold tracking-tight transition-opacity hover:opacity-70 dark:text-white"
         >
           &larr; NEWER
         </Link>
       ) : (
         <div />
       )}
-      <span className="font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase text-secondary">
+      <span className="text-secondary font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
         {currentPage} / {totalPages}
       </span>
       {nextPage ? (
         <Link
           href={`/blog/page/${currentPage + 1}`}
-          className="text-sm font-bold tracking-tight hover:opacity-70 transition-opacity dark:text-white"
+          className="text-sm font-bold tracking-tight transition-opacity hover:opacity-70 dark:text-white"
         >
           OLDER &rarr;
         </Link>
@@ -78,13 +78,13 @@ export default function ListLayoutWithTags({
     .sort((a, b) => b - a)
 
   return (
-    <main className="pt-40 pb-24 max-w-7xl mx-auto px-8">
+    <main className="mx-auto max-w-7xl px-8 pt-40 pb-24">
       {/* Header */}
       <header className="mb-24">
-        <h1 className="text-[3.5rem] font-black tracking-tighter leading-none mb-6 font-[family-name:var(--font-inter)] dark:text-white">
+        <h1 className="mb-6 font-[family-name:var(--font-inter)] text-[3.5rem] leading-none font-black tracking-tighter dark:text-white">
           {title}
         </h1>
-        <p className="text-on-surface-variant dark:text-stone-400 max-w-xl text-lg leading-relaxed">
+        <p className="text-on-surface-variant max-w-xl text-lg leading-relaxed dark:text-stone-400">
           A chronological collection of technical explorations, architectural notes, and digital
           curations.
         </p>
@@ -95,7 +95,7 @@ export default function ListLayoutWithTags({
         {years.map((year) => (
           <section key={year} className="editorial-grid">
             <aside className="pt-2">
-              <h2 className="text-4xl font-black tracking-tighter sticky top-28 font-[family-name:var(--font-inter)] dark:text-white">
+              <h2 className="sticky top-28 font-[family-name:var(--font-inter)] text-4xl font-black tracking-tighter dark:text-white">
                 {year}
               </h2>
             </aside>
@@ -106,21 +106,21 @@ export default function ListLayoutWithTags({
                   <article key={path} className="group cursor-pointer">
                     <Link href={`/${path}`}>
                       <div className="flex flex-col gap-3">
-                        <div className="flex items-center gap-4 font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase text-stone-400">
+                        <div className="flex items-center gap-4 font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest text-stone-400 uppercase">
                           <span>{formatDate(date, siteMetadata.locale).toUpperCase()}</span>
                           {tags?.[0] && (
                             <>
-                              <span className="w-1 h-1 bg-outline-variant rounded-full"></span>
-                              <span className="text-stone-600 dark:text-stone-300 font-bold">
+                              <span className="bg-outline-variant h-1 w-1 rounded-full"></span>
+                              <span className="font-bold text-stone-600 dark:text-stone-300">
                                 {tags[0].charAt(0).toUpperCase() + tags[0].slice(1)}
                               </span>
                             </>
                           )}
                         </div>
-                        <h3 className="text-2xl font-bold tracking-tight text-primary dark:text-stone-100 group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-colors font-[family-name:var(--font-inter)]">
+                        <h3 className="text-primary font-[family-name:var(--font-inter)] text-2xl font-bold tracking-tight transition-colors group-hover:text-stone-600 dark:text-stone-100 dark:group-hover:text-stone-400">
                           {title}
                         </h3>
-                        <p className="text-on-surface-variant dark:text-stone-400 text-base leading-relaxed max-w-2xl">
+                        <p className="text-on-surface-variant max-w-2xl text-base leading-relaxed dark:text-stone-400">
                           {summary}
                         </p>
                       </div>
@@ -135,10 +135,10 @@ export default function ListLayoutWithTags({
 
       {/* Browse by Topic */}
       {sortedTags.length > 0 && (
-        <section className="border-t border-outline-variant/20 pt-24 mt-24">
+        <section className="border-outline-variant/20 mt-24 border-t pt-24">
           <div className="editorial-grid">
             <aside>
-              <h4 className="font-[family-name:var(--font-manrope)] text-xs tracking-[0.2em] uppercase text-stone-400 mb-8">
+              <h4 className="mb-8 font-[family-name:var(--font-manrope)] text-xs tracking-[0.2em] text-stone-400 uppercase">
                 Browse by Topic
               </h4>
             </aside>
@@ -147,7 +147,7 @@ export default function ListLayoutWithTags({
                 <Link
                   key={t}
                   href={`/tags/${slug(t)}`}
-                  className="px-5 py-2.5 bg-surface-container-low dark:bg-stone-800 text-primary dark:text-stone-100 font-[family-name:var(--font-manrope)] text-[0.75rem] uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all rounded-md"
+                  className="bg-surface-container-low text-primary hover:bg-primary hover:text-on-primary rounded-md px-5 py-2.5 font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase transition-all dark:bg-stone-800 dark:text-stone-100"
                 >
                   {t}
                 </Link>

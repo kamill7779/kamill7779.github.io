@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@plugin "@tailwindcss/forms";
+@plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 @source '../node_modules/pliny';
 @custom-variant dark (&:where(.dark, .dark *));
@@ -80,7 +80,7 @@
   ::after,
   ::before,
   ::backdrop,
-  ::file-Selector-button {
+  ::file-selector-button {
     border-color: var(--color-outline-variant);
   }
 
@@ -97,7 +97,11 @@
   }
 
   .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
     vertical-align: middle;
   }
 }
@@ -167,7 +171,7 @@
 }
 
 .footnotes {
-  @apply mt-12 border-t border-outline-variant pt-8 dark:border-gray-700;
+  @apply border-outline-variant mt-12 border-t pt-8 dark:border-gray-700;
 }
 
 .data-footnote-backref {
