@@ -35,6 +35,10 @@ jobs:
         env:
           EXPORT: 1
           UNOPTIMIZED: 1
+          NEXT_PUBLIC_GISCUS_REPO: kamill7779/kamill7779.github.io
+          NEXT_PUBLIC_GISCUS_REPOSITORY_ID: R_kgDORzp0Fw
+          NEXT_PUBLIC_GISCUS_CATEGORY: General
+          NEXT_PUBLIC_GISCUS_CATEGORY_ID: DIC_kwDORzp0F84C5hPs
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out

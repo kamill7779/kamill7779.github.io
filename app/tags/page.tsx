@@ -1,5 +1,4 @@
-import Link from '@/components/Link'
-import Tag from '@/components/Tag'
+import Link from 'next/link'
 import { slug } from 'github-slugger'
 import tagData from 'app/tag-data.json'
 import { genPageMetadata } from 'app/seo'
@@ -10,32 +9,40 @@ export default async function Page() {
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
+
   return (
-    <>
-      <div className="flex flex-col items-start justify-start divide-y divide-gray-200 md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0 dark:divide-gray-700">
-        <div className="space-x-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:border-r-2 md:px-6 md:text-6xl md:leading-14 dark:text-gray-100">
-            Tags
-          </h1>
+    <main className="mx-auto max-w-7xl px-8 pt-40 pb-24">
+      <header className="mb-24">
+        <h1 className="mb-6 text-[3.5rem] leading-none font-black tracking-tighter dark:text-white">
+          Tags
+        </h1>
+        <p className="text-on-surface-variant max-w-xl text-lg leading-relaxed dark:text-stone-400">
+          Browse articles by topic. Each tag represents a theme or technology I write about.
+        </p>
+      </header>
+
+      <section className="editorial-grid">
+        <aside>
+          <h2 className="mb-8 font-[family-name:var(--font-manrope)] text-xs tracking-[0.2em] text-stone-400 uppercase">
+            All Topics
+          </h2>
+        </aside>
+        <div className="flex flex-wrap gap-3">
+          {tagKeys.length === 0 && (
+            <p className="text-on-surface-variant dark:text-stone-400">No tags found.</p>
+          )}
+          {sortedTags.map((t) => (
+            <Link
+              key={t}
+              href={`/tags/${slug(t)}`}
+              className="bg-surface-container-low text-primary-contrast hover:bg-primary hover:text-on-primary rounded-md px-5 py-2.5 font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase transition-all dark:bg-stone-800 dark:text-stone-100"
+            >
+              {t}
+              <span className="ml-2 opacity-50">({tagCounts[t]})</span>
+            </Link>
+          ))}
         </div>
-        <div className="flex max-w-lg flex-wrap">
-          {tagKeys.length === 0 && 'No tags found.'}
-          {sortedTags.map((t) => {
-            return (
-              <div key={t} className="mt-2 mr-5 mb-2">
-                <Tag text={t} />
-                <Link
-                  href={`/tags/${slug(t)}`}
-                  className="-ml-2 text-sm font-semibold text-gray-600 uppercase dark:text-gray-300"
-                  aria-label={`View posts tagged ${t}`}
-                >
-                  {` (${tagCounts[t]})`}
-                </Link>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-    </>
+      </section>
+    </main>
   )
 }

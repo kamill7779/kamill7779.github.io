@@ -1,25 +1,31 @@
-import Link from '@/components/Link'
+import Link from 'next/link'
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-start justify-start md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">
-      <div className="space-x-2 pt-6 pb-8 md:space-y-5">
-        <h1 className="text-6xl leading-9 font-extrabold tracking-tight text-gray-900 md:border-r-2 md:px-6 md:text-8xl md:leading-14 dark:text-gray-100">
-          404
-        </h1>
-      </div>
-      <div className="max-w-md">
-        <p className="mb-4 text-xl leading-normal font-bold md:text-2xl">
-          Sorry we couldn't find this page.
-        </p>
-        <p className="mb-8">But dont worry, you can find plenty of other things on our homepage.</p>
+    <main className="mx-auto flex min-h-[60vh] max-w-7xl flex-col items-center justify-center px-8 pt-40 pb-24 text-center">
+      <span className="text-secondary mb-8 font-[family-name:var(--font-manrope)] text-[0.7rem] font-black tracking-[0.3em] uppercase">
+        Error 404
+      </span>
+      <h1 className="text-primary mb-6 text-[6rem] leading-none font-black tracking-tighter dark:text-white">
+        Lost?
+      </h1>
+      <p className="text-on-surface-variant mb-16 max-w-md text-lg leading-relaxed dark:text-stone-400">
+        This page doesn&apos;t exist, or has been moved. Let&apos;s get you back on track.
+      </p>
+      <div className="flex gap-4">
         <Link
           href="/"
-          className="focus:shadow-outline-blue inline rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm leading-5 font-medium text-white shadow-xs transition-colors duration-150 hover:bg-blue-700 focus:outline-hidden dark:hover:bg-blue-500"
+          className="bg-primary text-on-primary-contrast rounded-md px-8 py-4 font-bold transition-all active:scale-95"
         >
-          Back to homepage
+          Back to Home
+        </Link>
+        <Link
+          href="/blog"
+          className="bg-surface-container-lowest text-primary-contrast hover:bg-surface-container-high rounded-md px-8 py-4 font-bold transition-all active:scale-95 dark:bg-stone-800 dark:text-white"
+        >
+          Browse Archive
         </Link>
       </div>
-    </div>
+    </main>
   )
 }
