@@ -10,12 +10,12 @@ export default function ReadingProgress() {
   useEffect(() => {
     setProgress(0)
     const updateProgress = () => {
-    const scrollTop = window.scrollY
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight
-    if (docHeight > 0) {
-      setProgress((scrollTop / docHeight) * 100)
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      if (docHeight > 0) {
+        setProgress((scrollTop / docHeight) * 100)
+      }
     }
-  }
     window.addEventListener('scroll', updateProgress, { passive: true })
     return () => window.removeEventListener('scroll', updateProgress)
   }, [pathname])
@@ -27,7 +27,7 @@ export default function ReadingProgress() {
       className="fixed top-20 left-0 z-50 h-[2px] transition-all duration-150 ease-out"
       style={{ width: `${progress}%` }}
     >
-      <div className="h-full bg-primary dark:bg-white" />
+      <div className="bg-primary h-full dark:bg-white" />
     </div>
   )
 }

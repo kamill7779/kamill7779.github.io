@@ -16,14 +16,18 @@ export default function CopyButton() {
   return (
     <button
       onClick={handleCopy}
-      className="absolute right-3 top-3 rounded-md p-1.5 text-xs opacity-0 transition-opacity group-hover:opacity-100 focus:opacity-100"
+      className="absolute top-3 right-3 rounded-md p-1.5 text-xs opacity-0 transition-opacity group-hover:opacity-100 focus:opacity-100"
       aria-label="Copy code"
       type="button"
     >
       {copied ? (
         <span className="text-green-500">
           <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M16.707 5.293a1 1 00 1.014.094l-8 8a1 1 001.014.094l-4-4a1 1 10 1.414-1.414L7 12.586 15.293 4.293z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M16.707 5.293a1 1 00 1.014.094l-8 8a1 1 001.014.094l-4-4a1 1 10 1.414-1.414L7 12.586 15.293 4.293z"
+              clipRule="evenodd"
+            />
           </svg>
         </span>
       ) : (
