@@ -7,6 +7,8 @@ import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import TopNavBar from '@/components/TopNavBar'
 import Footer from '@/components/Footer'
+import ReadingProgress from '@/components/ReadingProgress'
+import ScrollTop from '@/components/ScrollTop'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
@@ -118,7 +120,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
             <TopNavBar />
+            <ReadingProgress />
             <main className="min-h-screen">{children}</main>
+            <ScrollTop />
             <Footer />
           </SearchProvider>
         </ThemeProviders>
