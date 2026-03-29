@@ -1,35 +1,31 @@
-import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
-import SocialIcon from '@/components/social-icons'
 
 export default function Footer() {
   return (
-    <footer>
-      <div className="mt-16 flex flex-col items-center">
-        <div className="mb-3 flex space-x-4">
-          <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
-          <SocialIcon kind="github" href={siteMetadata.github} size={6} />
-          <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} />
-          <SocialIcon kind="youtube" href={siteMetadata.youtube} size={6} />
-          <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} />
-          <SocialIcon kind="twitter" href={siteMetadata.twitter} size={6} />
-          <SocialIcon kind="bluesky" href={siteMetadata.bluesky} size={6} />
-          <SocialIcon kind="x" href={siteMetadata.x} size={6} />
-          <SocialIcon kind="instagram" href={siteMetadata.instagram} size={6} />
-          <SocialIcon kind="threads" href={siteMetadata.threads} size={6} />
-          <SocialIcon kind="medium" href={siteMetadata.medium} size={6} />
+    <footer className="w-full py-12 mt-24 bg-stone-100 dark:bg-stone-900 border-t border-outline-variant/5">
+      <div className="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-8 gap-4">
+        <div className="text-sm font-bold text-black dark:text-white uppercase tracking-widest">
+          {siteMetadata.title}
         </div>
-        <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
-          <div>{siteMetadata.author}</div>
-          <div>{` • `}</div>
-          <div>{`© ${new Date().getFullYear()}`}</div>
-          <div>{` • `}</div>
-          <Link href="/">{siteMetadata.title}</Link>
+        <div className="font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase text-stone-900 dark:text-stone-100 opacity-60">
+          &copy; {new Date().getFullYear()} {siteMetadata.author}. Built with
+          precision.
         </div>
-        <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
-          <Link href="https://github.com/timlrx/tailwind-nextjs-starter-blog">
-            Tailwind Nextjs Theme
-          </Link>
+        <div className="flex gap-8">
+          <a
+            className="font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors"
+            href="/feed.xml"
+          >
+            RSS Feed
+          </a>
+          <a
+            className="font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors"
+            href={siteMetadata.siteRepo}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Source
+          </a>
         </div>
       </div>
     </footer>

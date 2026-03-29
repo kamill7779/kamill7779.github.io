@@ -1,91 +1,162 @@
-import Link from '@/components/Link'
+import Link from 'next/link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
-import NewsletterForm from 'pliny/ui/NewsletterForm'
 
 const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
+  const featured = posts.slice(0, 2)
+  const recent = posts.slice(0, MAX_DISPLAY)
+
   return (
-    <>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
-            Latest
-          </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p>
+    <main className="pt-40 pb-24 max-w-7xl mx-auto px-8">
+      {/* Hero */}
+      <header className="mb-32">
+        <div className="editorial-grid">
+          <div>
+            <p className="font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase text-secondary mb-4">
+              The Curator&apos;s Desk
+            </p>
+          </div>
+          <div>
+            <h1 className="text-[3.5rem] font-black leading-[1.1] tracking-tighter mb-8 max-w-2xl text-primary dark:text-white">
+              Technical explorations into the architecture of the web.
+            </h1>
+            <div className="max-w-xl text-lg text-on-surface-variant dark:text-stone-400 leading-relaxed">
+              {siteMetadata.description}
+            </div>
+          </div>
         </div>
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {!posts.length && 'No posts found.'}
-          {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags } = post
-            return (
-              <li key={slug} className="py-12">
-                <article>
-                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                    <dl>
-                      <dt className="sr-only">Published on</dt>
-                      <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                      </dd>
-                    </dl>
-                    <div className="space-y-5 xl:col-span-3">
-                      <div className="space-y-6">
-                        <div>
-                          <h2 className="text-2xl leading-8 font-bold tracking-tight">
-                            <Link
-                              href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
-                            >
-                              {title}
-                            </Link>
-                          </h2>
-                          <div className="flex flex-wrap">
-                            {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
-                            ))}
-                          </div>
-                        </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
-                        </div>
-                      </div>
-                      <div className="text-base leading-6 font-medium">
-                        <Link
-                          href={`/blog/${slug}`}
-                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                          aria-label={`Read more: "${title}"`}
-                        >
-                          Read more &rarr;
-                        </Link>
-                      </div>
+      </header>
+
+      {/* Featured */}
+      {featured.length > 0 && (
+        <section className="mb-32">
+          <div className="editorial-grid items-end mb-12">
+            <div>
+              <h2 className="font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase text-secondary">
+                Featured Discourse
+              </h2>
+            </div>
+            <div className="h-px bg-outline-variant/20 dark:bg-white/10 w-full mb-1"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {featured.map((post, i) => {
+              const { slug, title, summary, tags } = post
+              const isFirst = i === 0
+              return (
+                <Link
+                  key={slug}
+                  href={`/blog/${slug}`}
+                  className={`group relative rounded-xl overflow-hidden p-8 transition-all cursor-pointer ${
+                    isFirst
+                      ? 'bg-surface-container-low dark:bg-stone-900 hover:bg-surface-container dark:hover:bg-stone-800'
+                      : 'bg-primary-container text-white'
+                  }`}
+                >
+                  <div className="flex flex-col h-full justify-between">
+                    <div>
+                      <p
+                        className={`font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase mb-6 ${
+                          isFirst ? 'text-secondary' : 'text-on-primary-fixed-variant'
+                        }`}
+                      >
+                        {tags?.[0]?.toUpperCase() || 'BLOG'}
+                      </p>
+                      <h3
+                        className={`text-2xl font-bold tracking-tight mb-4 transition-colors ${
+                          isFirst
+                            ? 'group-hover:text-primary dark:group-hover:text-white text-primary dark:text-white'
+                            : 'text-white'
+                        }`}
+                      >
+                        {title}
+                      </h3>
+                      <p
+                        className={`text-sm leading-relaxed mb-8 max-w-sm ${
+                          isFirst
+                            ? 'text-on-surface-variant dark:text-stone-400'
+                            : 'text-on-primary-fixed-variant'
+                        }`}
+                      >
+                        {summary}
+                      </p>
+                    </div>
+                    <div
+                      className={`flex items-center gap-2 font-[family-name:var(--font-manrope)] text-[0.7rem] font-bold ${
+                        isFirst ? 'dark:text-white' : ''
+                      }`}
+                    >
+                      <span>READ FULL ARTICLE</span>
+                      <span className="material-symbols-outlined text-xs">arrow_forward</span>
                     </div>
                   </div>
-                </article>
-              </li>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Recent Logs */}
+      <section className="max-w-5xl">
+        <div className="editorial-grid items-end mb-16">
+          <div>
+            <h2 className="font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase text-secondary">
+              Recent Logs
+            </h2>
+          </div>
+        </div>
+        <div className="space-y-16">
+          {recent.map((post) => {
+            const { slug, date, title, summary, tags } = post
+            return (
+              <Link
+                key={slug}
+                href={`/blog/${slug}`}
+                className="editorial-grid group cursor-pointer block"
+              >
+                <div className="pt-1">
+                  <time className="font-[family-name:var(--font-manrope)] text-[0.75rem] text-secondary tracking-widest uppercase">
+                    {formatDate(date, siteMetadata.locale).toUpperCase()}
+                  </time>
+                </div>
+                <div className="border-b border-outline-variant/10 dark:border-white/5 pb-12">
+                  <div className="flex gap-2 mb-3">
+                    {tags?.map((tag) => (
+                      <span
+                        key={tag}
+                        className="font-[family-name:var(--font-manrope)] text-[0.6rem] px-2 py-0.5 bg-surface-container-high dark:bg-stone-800 rounded-full dark:text-stone-300"
+                      >
+                        {tag.toUpperCase()}
+                      </span>
+                    ))}
+                  </div>
+                  <h4 className="text-xl font-bold tracking-tight mb-4 group-hover:text-primary dark:group-hover:text-white transition-colors dark:text-stone-100">
+                    {title}
+                  </h4>
+                  <p className="text-on-surface-variant dark:text-stone-400 leading-relaxed max-w-2xl">
+                    {summary}
+                  </p>
+                </div>
+              </Link>
             )
           })}
-        </ul>
-      </div>
-      {posts.length > MAX_DISPLAY && (
-        <div className="flex justify-end text-base leading-6 font-medium">
-          <Link
-            href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="All posts"
-          >
-            All Posts &rarr;
-          </Link>
         </div>
-      )}
-      {siteMetadata.newsletter?.provider && (
-        <div className="flex items-center justify-center pt-4">
-          <NewsletterForm />
+        <div className="editorial-grid mt-12">
+          <div></div>
+          <div>
+            <Link
+              href="/blog"
+              className="flex items-center gap-4 text-sm font-bold tracking-tight hover:opacity-70 transition-opacity dark:text-white"
+            >
+              VIEW FULL ARCHIVE
+              <span className="w-12 h-px bg-primary dark:bg-white"></span>
+            </Link>
+          </div>
         </div>
-      )}
-    </>
+      </section>
+    </main>
   )
 }

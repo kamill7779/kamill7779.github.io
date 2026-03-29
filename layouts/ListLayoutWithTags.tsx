@@ -1,12 +1,10 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
 import { slug } from 'github-slugger'
 import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
-import Link from '@/components/Link'
-import Tag from '@/components/Tag'
+import Link from 'next/link'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
 
@@ -22,46 +20,34 @@ interface ListLayoutProps {
 }
 
 function Pagination({ totalPages, currentPage }: PaginationProps) {
-  const pathname = usePathname()
-  const segments = pathname.split('/')
-  const lastSegment = segments[segments.length - 1]
-  const basePath = pathname
-    .replace(/^\//, '') // Remove leading slash
-    .replace(/\/page\/\d+\/?$/, '') // Remove any trailing /page
-    .replace(/\/$/, '') // Remove trailing slash
   const prevPage = currentPage - 1 > 0
   const nextPage = currentPage + 1 <= totalPages
 
   return (
-    <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-      <nav className="flex justify-between">
-        {!prevPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
-            Previous
-          </button>
-        )}
-        {prevPage && (
-          <Link
-            href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
-            rel="prev"
-          >
-            Previous
-          </Link>
-        )}
-        <span>
-          {currentPage} of {totalPages}
-        </span>
-        {!nextPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
-            Next
-          </button>
-        )}
-        {nextPage && (
-          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-            Next
-          </Link>
-        )}
-      </nav>
+    <div className="flex justify-between pt-6 pb-8">
+      {prevPage ? (
+        <Link
+          href={currentPage - 1 === 1 ? '/blog/' : `/blog/page/${currentPage - 1}`}
+          className="text-sm font-bold tracking-tight hover:opacity-70 transition-opacity dark:text-white"
+        >
+          &larr; NEWER
+        </Link>
+      ) : (
+        <div />
+      )}
+      <span className="font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase text-secondary">
+        {currentPage} / {totalPages}
+      </span>
+      {nextPage ? (
+        <Link
+          href={`/blog/page/${currentPage + 1}`}
+          className="text-sm font-bold tracking-tight hover:opacity-70 transition-opacity dark:text-white"
+        >
+          OLDER &rarr;
+        </Link>
+      ) : (
+        <div />
+      )}
     </div>
   )
 }
@@ -72,98 +58,109 @@ export default function ListLayoutWithTags({
   initialDisplayPosts = [],
   pagination,
 }: ListLayoutProps) {
-  const pathname = usePathname()
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
-
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
+  // Group posts by year
+  const postsByYear = displayPosts.reduce(
+    (acc, post) => {
+      const year = new Date(post.date).getFullYear()
+      if (!acc[year]) acc[year] = []
+      acc[year].push(post)
+      return acc
+    },
+    {} as Record<number, CoreContent<Blog>[]>
+  )
+  const years = Object.keys(postsByYear)
+    .map(Number)
+    .sort((a, b) => b - a)
+
   return (
-    <>
-      <div>
-        <div className="pt-6 pb-6">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:hidden sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
-            {title}
-          </h1>
-        </div>
-        <div className="flex sm:space-x-24">
-          <div className="hidden h-full max-h-screen max-w-[280px] min-w-[280px] flex-wrap overflow-auto rounded-sm bg-gray-50 pt-5 shadow-md sm:flex dark:bg-gray-900/70 dark:shadow-gray-800/40">
-            <div className="px-6 py-4">
-              {pathname.startsWith('/blog') ? (
-                <h3 className="text-primary-500 font-bold uppercase">All Posts</h3>
-              ) : (
-                <Link
-                  href={`/blog`}
-                  className="hover:text-primary-500 dark:hover:text-primary-500 font-bold text-gray-700 uppercase dark:text-gray-300"
-                >
-                  All Posts
-                </Link>
-              )}
-              <ul>
-                {sortedTags.map((t) => {
-                  return (
-                    <li key={t} className="my-3">
-                      {decodeURI(pathname.split('/tags/')[1]) === slug(t) ? (
-                        <h3 className="text-primary-500 inline px-3 py-2 text-sm font-bold uppercase">
-                          {`${t} (${tagCounts[t]})`}
-                        </h3>
-                      ) : (
-                        <Link
-                          href={`/tags/${slug(t)}`}
-                          className="hover:text-primary-500 dark:hover:text-primary-500 px-3 py-2 text-sm font-medium text-gray-500 uppercase dark:text-gray-300"
-                          aria-label={`View posts tagged ${t}`}
-                        >
-                          {`${t} (${tagCounts[t]})`}
-                        </Link>
-                      )}
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          </div>
-          <div>
-            <ul>
-              {displayPosts.map((post) => {
+    <main className="pt-40 pb-24 max-w-7xl mx-auto px-8">
+      {/* Header */}
+      <header className="mb-24">
+        <h1 className="text-[3.5rem] font-black tracking-tighter leading-none mb-6 font-[family-name:var(--font-inter)] dark:text-white">
+          {title}
+        </h1>
+        <p className="text-on-surface-variant dark:text-stone-400 max-w-xl text-lg leading-relaxed">
+          A chronological collection of technical explorations, architectural notes, and digital
+          curations.
+        </p>
+      </header>
+
+      {/* Posts grouped by year */}
+      <div className="space-y-32">
+        {years.map((year) => (
+          <section key={year} className="editorial-grid">
+            <aside className="pt-2">
+              <h2 className="text-4xl font-black tracking-tighter sticky top-28 font-[family-name:var(--font-inter)] dark:text-white">
+                {year}
+              </h2>
+            </aside>
+            <div className="space-y-16">
+              {postsByYear[year].map((post) => {
                 const { path, date, title, summary, tags } = post
                 return (
-                  <li key={path} className="py-5">
-                    <article className="flex flex-col space-y-2 xl:space-y-0">
-                      <dl>
-                        <dt className="sr-only">Published on</dt>
-                        <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                          <time dateTime={date} suppressHydrationWarning>
-                            {formatDate(date, siteMetadata.locale)}
-                          </time>
-                        </dd>
-                      </dl>
-                      <div className="space-y-3">
-                        <div>
-                          <h2 className="text-2xl leading-8 font-bold tracking-tight">
-                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
-                              {title}
-                            </Link>
-                          </h2>
-                          <div className="flex flex-wrap">
-                            {tags?.map((tag) => <Tag key={tag} text={tag} />)}
-                          </div>
+                  <article key={path} className="group cursor-pointer">
+                    <Link href={`/${path}`}>
+                      <div className="flex flex-col gap-3">
+                        <div className="flex items-center gap-4 font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase text-stone-400">
+                          <span>{formatDate(date, siteMetadata.locale).toUpperCase()}</span>
+                          {tags?.[0] && (
+                            <>
+                              <span className="w-1 h-1 bg-outline-variant rounded-full"></span>
+                              <span className="text-stone-600 dark:text-stone-300 font-bold">
+                                {tags[0].charAt(0).toUpperCase() + tags[0].slice(1)}
+                              </span>
+                            </>
+                          )}
                         </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
+                        <h3 className="text-2xl font-bold tracking-tight text-primary dark:text-stone-100 group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-colors font-[family-name:var(--font-inter)]">
+                          {title}
+                        </h3>
+                        <p className="text-on-surface-variant dark:text-stone-400 text-base leading-relaxed max-w-2xl">
                           {summary}
-                        </div>
+                        </p>
                       </div>
-                    </article>
-                  </li>
+                    </Link>
+                  </article>
                 )
               })}
-            </ul>
-            {pagination && pagination.totalPages > 1 && (
-              <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
-            )}
-          </div>
-        </div>
+            </div>
+          </section>
+        ))}
       </div>
-    </>
+
+      {/* Browse by Topic */}
+      {sortedTags.length > 0 && (
+        <section className="border-t border-outline-variant/20 pt-24 mt-24">
+          <div className="editorial-grid">
+            <aside>
+              <h4 className="font-[family-name:var(--font-manrope)] text-xs tracking-[0.2em] uppercase text-stone-400 mb-8">
+                Browse by Topic
+              </h4>
+            </aside>
+            <div className="flex flex-wrap gap-3">
+              {sortedTags.map((t) => (
+                <Link
+                  key={t}
+                  href={`/tags/${slug(t)}`}
+                  className="px-5 py-2.5 bg-surface-container-low dark:bg-stone-800 text-primary dark:text-stone-100 font-[family-name:var(--font-manrope)] text-[0.75rem] uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all rounded-md"
+                >
+                  {t}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Pagination */}
+      {pagination && pagination.totalPages > 1 && (
+        <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
+      )}
+    </main>
   )
 }
