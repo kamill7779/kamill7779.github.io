@@ -17,9 +17,9 @@ export default function TopNavBar() {
   const darkMode = theme === 'dark'
 
   return (
-    <nav className="border-outline-variant/5 fixed top-0 z-50 h-20 w-full border-b bg-white/70 backdrop-blur-xl transition-all dark:bg-stone-950/70">
+    <nav className="border-outline-variant/10 bg-surface/80 fixed top-0 z-50 h-20 w-full border-b backdrop-blur-xl transition-colors duration-300">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-8">
-        <Link href="/" className="text-xl font-black tracking-tighter text-black dark:text-white">
+        <Link href="/" className="text-on-surface text-xl font-black tracking-tighter">
           Kamil&apos;s Blog
         </Link>
 
@@ -33,8 +33,8 @@ export default function TopNavBar() {
                 href={link.href}
                 className={`${
                   isActive
-                    ? 'border-b-2 border-black pb-1 font-bold text-black dark:border-white dark:text-white'
-                    : 'text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white'
+                    ? 'border-primary text-on-surface border-b-2 pb-1 font-bold'
+                    : 'text-on-surface-variant hover:text-on-surface'
                 } font-[family-name:var(--font-inter)] tracking-tight antialiased transition-colors`}
               >
                 {link.title}
@@ -45,10 +45,10 @@ export default function TopNavBar() {
             {mounted && (
               <button
                 onClick={() => setTheme(darkMode ? 'light' : 'dark')}
-                className="rounded-full p-2 transition-opacity duration-150 hover:opacity-80 active:scale-95"
+                className="text-on-surface rounded-full p-2 transition-opacity duration-150 hover:opacity-80 active:scale-95"
                 aria-label="Toggle dark mode"
               >
-                <span className="material-symbols-outlined text-black dark:text-white">
+                <span className="material-symbols-outlined">
                   {darkMode ? 'light_mode' : 'dark_mode'}
                 </span>
               </button>
@@ -61,29 +61,27 @@ export default function TopNavBar() {
           {mounted && (
             <button
               onClick={() => setTheme(darkMode ? 'light' : 'dark')}
-              className="rounded-full p-2 transition-opacity duration-150 hover:opacity-80"
+              className="text-on-surface rounded-full p-2 transition-opacity duration-150 hover:opacity-80"
               aria-label="Toggle dark mode"
             >
-              <span className="material-symbols-outlined text-black dark:text-white">
+              <span className="material-symbols-outlined">
                 {darkMode ? 'light_mode' : 'dark_mode'}
               </span>
             </button>
           )}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-full p-2 transition-opacity duration-150 hover:opacity-80 active:scale-95"
+            className="text-on-surface rounded-full p-2 transition-opacity duration-150 hover:opacity-80 active:scale-95"
             aria-label="Toggle menu"
           >
-            <span className="material-symbols-outlined text-black dark:text-white">
-              {mobileOpen ? 'close' : 'menu'}
-            </span>
+            <span className="material-symbols-outlined">{mobileOpen ? 'close' : 'menu'}</span>
           </button>
         </div>
       </div>
 
       {/* Mobile dropdown */}
       {mobileOpen && (
-        <div className="border-outline-variant/5 border-b bg-white/95 backdrop-blur-xl md:hidden dark:bg-stone-950/95">
+        <div className="border-outline-variant/10 bg-surface/95 border-b backdrop-blur-xl md:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-8 py-4">
             {headerNavLinks.map((link) => {
               const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
@@ -94,8 +92,8 @@ export default function TopNavBar() {
                   onClick={() => setMobileOpen(false)}
                   className={`${
                     isActive
-                      ? 'border-l-2 border-black pl-4 font-bold text-black dark:border-white dark:text-white'
-                      : 'pl-4 text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white'
+                      ? 'border-primary text-on-surface border-l-2 pl-4 font-bold'
+                      : 'text-on-surface-variant hover:text-on-surface pl-4'
                   } py-3 font-[family-name:var(--font-inter)] text-sm tracking-tight antialiased transition-colors`}
                 >
                   {link.title}

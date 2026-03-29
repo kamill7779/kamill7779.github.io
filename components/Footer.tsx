@@ -2,23 +2,23 @@ import siteMetadata from '@/data/siteMetadata'
 
 export default function Footer() {
   return (
-    <footer className="border-outline-variant/5 mt-24 w-full border-t bg-stone-100 py-12 dark:bg-stone-900">
+    <footer className="border-outline-variant/10 bg-surface-container-low mt-24 w-full border-t py-12">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-8 md:flex-row">
-        <div className="text-sm font-bold tracking-widest text-black uppercase dark:text-white">
+        <div className="text-on-surface text-sm font-bold tracking-widest uppercase">
           {siteMetadata.title}
         </div>
-        <div className="font-[family-name:var(--font-manrope)] text-xs tracking-widest text-stone-900 uppercase opacity-60 dark:text-stone-100">
+        <div className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase opacity-60">
           &copy; {new Date().getFullYear()} {siteMetadata.author}. Built with precision.
         </div>
         <div className="flex gap-8">
           <a
-            className="font-[family-name:var(--font-manrope)] text-xs tracking-widest text-stone-400 uppercase transition-colors hover:text-black dark:text-stone-500 dark:hover:text-white"
+            className="text-on-surface-variant hover:text-on-surface font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase transition-colors"
             href="/feed.xml"
           >
             RSS Feed
           </a>
           <a
-            className="font-[family-name:var(--font-manrope)] text-xs tracking-widest text-stone-400 uppercase transition-colors hover:text-black dark:text-stone-500 dark:hover:text-white"
+            className="text-on-surface-variant hover:text-on-surface font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase transition-colors"
             href={siteMetadata.siteRepo}
             target="_blank"
             rel="noopener noreferrer"

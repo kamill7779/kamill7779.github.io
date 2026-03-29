@@ -22,10 +22,10 @@ export default function Home({ posts }) {
               </p>
             </div>
             <div>
-              <h1 className="text-primary mb-8 max-w-2xl text-[3.5rem] leading-[1.1] font-black tracking-tighter dark:text-white">
+              <h1 className="text-primary mb-8 max-w-2xl text-[3.5rem] leading-[1.1] font-black tracking-tighter">
                 Technical explorations into the architecture of the web.
               </h1>
-              <div className="text-on-surface-variant max-w-xl text-lg leading-relaxed dark:text-stone-400">
+              <div className="text-on-surface-variant max-w-xl text-lg leading-relaxed">
                 {siteMetadata.description}
               </div>
             </div>
@@ -43,7 +43,7 @@ export default function Home({ posts }) {
                   Featured Discourse
                 </h2>
               </div>
-              <div className="bg-outline-variant/20 mb-1 h-px w-full dark:bg-white/10"></div>
+              <div className="bg-outline-variant/30 mb-1 h-px w-full"></div>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               {featured.map((post, i) => {
@@ -55,8 +55,8 @@ export default function Home({ posts }) {
                     href={`/blog/${slug}`}
                     className={`group relative cursor-pointer overflow-hidden rounded-xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                       isFirst
-                        ? 'bg-surface-container-low hover:bg-surface-container dark:bg-stone-900 dark:hover:bg-stone-800'
-                        : 'bg-primary-container text-white hover:shadow-xl/20'
+                        ? 'bg-surface-container-low text-on-surface hover:bg-surface-container'
+                        : 'bg-primary-container text-on-primary-container'
                     }`}
                   >
                     <div className="flex h-full flex-col justify-between">
@@ -71,27 +71,21 @@ export default function Home({ posts }) {
                         <h3
                           className={`mb-4 text-2xl font-bold tracking-tight transition-colors ${
                             isFirst
-                              ? 'group-hover:text-primary text-primary dark:text-white dark:group-hover:text-white'
-                              : 'text-white'
+                              ? 'text-primary group-hover:text-on-surface'
+                              : 'text-on-primary-container'
                           }`}
                         >
                           {title}
                         </h3>
                         <p
                           className={`mb-8 max-w-sm text-sm leading-relaxed ${
-                            isFirst
-                              ? 'text-on-surface-variant dark:text-stone-400'
-                              : 'text-on-primary-fixed-variant'
+                            isFirst ? 'text-on-surface-variant' : 'text-on-primary-fixed-variant'
                           }`}
                         >
                           {summary}
                         </p>
                       </div>
-                      <div
-                        className={`flex items-center gap-2 font-[family-name:var(--font-manrope)] text-[0.7rem] font-bold ${
-                          isFirst ? 'dark:text-white' : ''
-                        }`}
-                      >
+                      <div className="flex items-center gap-2 font-[family-name:var(--font-manrope)] text-[0.7rem] font-bold">
                         <span>READ FULL ARTICLE</span>
                         <span className="material-symbols-outlined text-xs">arrow_forward</span>
                       </div>
@@ -128,23 +122,21 @@ export default function Home({ posts }) {
                       {formatDate(date, siteMetadata.locale).toUpperCase()}
                     </time>
                   </div>
-                  <div className="border-outline-variant/10 border-b pb-12 transition-all duration-200 group-hover:translate-x-1 dark:border-white/5">
+                  <div className="border-outline-variant/10 border-b pb-12 transition-all duration-200 group-hover:translate-x-1">
                     <div className="mb-3 flex gap-2">
                       {tags?.map((tag) => (
                         <span
                           key={tag}
-                          className="bg-surface-container-high rounded-full px-2 py-0.5 font-[family-name:var(--font-manrope)] text-[0.6rem] dark:bg-stone-800 dark:text-stone-300"
+                          className="bg-surface-container-high text-on-surface rounded-full px-2 py-0.5 font-[family-name:var(--font-manrope)] text-[0.6rem]"
                         >
                           {tag.toUpperCase()}
                         </span>
                       ))}
                     </div>
-                    <h4 className="group-hover:text-primary mb-4 text-xl font-bold tracking-tight transition-colors dark:text-stone-100 dark:group-hover:text-white">
+                    <h4 className="group-hover:text-primary text-on-surface mb-4 text-xl font-bold tracking-tight transition-colors">
                       {title}
                     </h4>
-                    <p className="text-on-surface-variant max-w-2xl leading-relaxed dark:text-stone-400">
-                      {summary}
-                    </p>
+                    <p className="text-on-surface-variant max-w-2xl leading-relaxed">{summary}</p>
                   </div>
                 </Link>
               )
@@ -155,10 +147,10 @@ export default function Home({ posts }) {
             <div>
               <Link
                 href="/blog"
-                className="flex items-center gap-4 text-sm font-bold tracking-tight transition-opacity hover:opacity-70 dark:text-white"
+                className="text-on-surface flex items-center gap-4 text-sm font-bold tracking-tight transition-opacity hover:opacity-70"
               >
                 VIEW FULL ARCHIVE
-                <span className="bg-primary h-px w-12 dark:bg-white"></span>
+                <span className="bg-primary h-px w-12"></span>
               </Link>
             </div>
           </div>

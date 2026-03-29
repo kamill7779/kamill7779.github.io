@@ -24,7 +24,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <div className="mx-auto mb-16 max-w-7xl px-8">
         <Link
           href="/blog"
-          className="group hover:text-primary inline-flex items-center gap-2 text-stone-500 transition-colors dark:hover:text-white"
+          className="group text-on-surface-variant hover:text-primary inline-flex items-center gap-2 transition-colors"
         >
           <span className="material-symbols-outlined text-sm transition-transform group-hover:-translate-x-1">
             arrow_back
@@ -41,13 +41,13 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           <div className="sticky top-32 space-y-12">
             {/* Author */}
             <div className="space-y-4">
-              <h4 className="font-[family-name:var(--font-manrope)] text-xs tracking-widest text-stone-400 uppercase">
+              <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
                 Curator
               </h4>
               {authorDetails.map((author) => (
                 <div key={author.name} className="flex items-center gap-3">
                   {author.avatar && (
-                    <div className="bg-surface-container-high h-10 w-10 overflow-hidden rounded-full dark:bg-stone-800">
+                    <div className="bg-surface-container-high h-10 w-10 overflow-hidden rounded-full">
                       <Image
                         src={author.avatar}
                         width={40}
@@ -58,7 +58,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     </div>
                   )}
                   <div>
-                    <p className="text-sm font-bold dark:text-white">{author.name}</p>
+                    <p className="text-on-surface text-sm font-bold">{author.name}</p>
                   </div>
                 </div>
               ))}
@@ -67,10 +67,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             {/* Meta */}
             <div className="space-y-6">
               <div className="space-y-1">
-                <h4 className="font-[family-name:var(--font-manrope)] text-xs tracking-widest text-stone-400 uppercase">
+                <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
                   Published
                 </h4>
-                <p className="text-sm font-medium dark:text-stone-300">
+                <p className="text-on-surface text-sm font-medium">
                   {formatDate(date, siteMetadata.locale)}
                 </p>
               </div>
@@ -82,7 +82,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       <Link
                         key={tag}
                         href={`/tags/${tag}`}
-                        className="bg-surface-container-lowest border-outline-variant/30 hover:bg-primary hover:text-on-primary border px-2 py-1 font-[family-name:var(--font-manrope)] text-[10px] tracking-wider uppercase transition-all dark:bg-stone-900 dark:text-stone-500"
+                        className="bg-surface-container-lowest border-outline-variant/30 text-on-surface-variant hover:bg-primary hover:text-on-primary border px-2 py-1 font-[family-name:var(--font-manrope)] text-[10px] tracking-wider uppercase transition-all"
                       >
                         {tag}
                       </Link>
@@ -97,12 +97,12 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               <div className="border-outline-variant/20 space-y-4 border-t pt-4">
                 {prev && prev.path && (
                   <div>
-                    <h4 className="mb-1 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest text-stone-400 uppercase">
+                    <h4 className="text-on-surface-variant mb-1 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase">
                       Previous
                     </h4>
                     <Link
                       href={`/${prev.path}`}
-                      className="hover:text-primary text-sm font-medium transition-colors dark:text-stone-300 dark:hover:text-white"
+                      className="text-on-surface hover:text-primary text-sm font-medium transition-colors"
                     >
                       {prev.title}
                     </Link>
@@ -110,12 +110,12 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 )}
                 {next && next.path && (
                   <div>
-                    <h4 className="mb-1 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest text-stone-400 uppercase">
+                    <h4 className="text-on-surface-variant mb-1 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase">
                       Next
                     </h4>
                     <Link
                       href={`/${next.path}`}
-                      className="hover:text-primary text-sm font-medium transition-colors dark:text-stone-300 dark:hover:text-white"
+                      className="text-on-surface hover:text-primary text-sm font-medium transition-colors"
                     >
                       {next.title}
                     </Link>
@@ -129,16 +129,16 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
         {/* Main content */}
         <div className="order-1 lg:order-2 lg:col-span-8 lg:col-start-5">
           <header className="mb-20">
-            <h1 className="text-primary mb-8 text-5xl leading-[1.1] font-black tracking-tighter md:text-6xl dark:text-white">
+            <h1 className="text-primary mb-8 text-5xl leading-[1.1] font-black tracking-tighter md:text-6xl">
               {title}
             </h1>
             {summary && (
-              <p className="max-w-2xl text-xl leading-relaxed font-light text-stone-500 dark:text-stone-400">
+              <p className="text-on-surface-variant max-w-2xl text-xl leading-relaxed font-light">
                 {summary}
               </p>
             )}
           </header>
-          <div className="prose text-on-surface max-w-none dark:text-stone-300">{children}</div>
+          <div className="prose text-on-surface max-w-none">{children}</div>
 
           {/* Comments */}
           {siteMetadata.comments && (
