@@ -2,7 +2,7 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
-import { Inter, Manrope, Fira_Code } from 'next/font/google'
+import { Inter, Fira_Code, JetBrains_Mono } from 'next/font/google'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import TopNavBar from '@/components/TopNavBar'
@@ -17,10 +17,10 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-const manrope = Manrope({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-manrope',
+  variable: '--font-jetbrains-mono',
 })
 
 const firaCode = Fira_Code({
@@ -75,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${inter.variable} ${manrope.variable} ${firaCode.variable} scroll-smooth`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${firaCode.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link
@@ -109,7 +109,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet"
       />
-      <body className="bg-background text-on-background selection:bg-primary selection:text-on-primary antialiased">
+      <link
+        href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css"
+        rel="stylesheet"
+      />
+      <body className="bg-background font-body text-on-background selection:bg-primary selection:text-on-primary antialiased">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
