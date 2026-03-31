@@ -87,40 +87,6 @@ npm run build        # Static export to ./out
 Push to `main` → GitHub Actions builds and deploys to GitHub Pages.
 Build uses `EXPORT=1 UNOPTIMIZED=1` env vars.
 
-## Design Context
-
-### Brand Personality
-**简约 · 高级感 · 现代感** — Minimal, Premium, Modern
-
-- Understated competence — nothing flashy but clearly well-crafted
-- Editorial sophistication with a technical edge
-- Bilingual (Chinese + English) with seamless integration
-
-### Users
-Both portfolio (recruiters scanning for competence) and knowledge-sharing (engineers seeking technical depth).
-
-### Emotional Goals
-- 设计感 (design-conscious): intentional design that doesn't distract
-- 新颖但简约 (novel but simple): fresh ideas, no clutter
-- 内容和谐 (content harmony): design serves content — words are the star
-
-### Design Principles
-1. **Content is king** — every decision serves reading. Remove decorations that don't aid comprehension.
-2. **Restrained sophistication** — premium from precision (exact spacing, deliberate typography), not from adding more. Less, but better.
-3. **Quiet confidence** — design feels inevitable. Competence speaks through craft, not flash.
-4. **Harmonious bilingualism** — Chinese and English coexist naturally with equal typographic care.
-5. **Modern craft** — contemporary patterns (MD3 tokens, CSS grid, subtle motion) that feel current without chasing trends.
-
-### Anti-patterns
-No bright accents, no gradients, no decorative illustrations, no playful/cartoon elements, no cluttered layouts.
-
-### Aesthetic Tokens
-- Colors: Monochromatic MD3 system — warm dark (#0c0a09), cool light (#f9f9fb)
-- Fonts: Inter (body), LXGW WenKai (Chinese), JetBrains Mono (labels), Fira Code (code)
-- Grid: Asymmetric editorial 1:2 ratio, 12-column detail layout
-- Motion: 600ms ease-out, 20px translateY, subtle hovers
-- Radius: Minimal (0.125rem) — sharp, editorial feel
-
 ## Useful Files to Check
 - `data/siteMetadata.js` — all site configuration
 - `css/tailwind.css` — all design tokens and theme

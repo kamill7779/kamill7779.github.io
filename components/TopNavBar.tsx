@@ -32,8 +32,10 @@ export default function TopNavBar() {
                 key={link.href}
                 href={link.href}
                 className={`${
-                  isActive ? 'nav-link-active text-on-surface font-bold' : 'text-on-surface-variant hover:text-on-surface'
-                } nav-link pb-1 font-body text-sm tracking-tight antialiased transition-colors`}
+                  isActive
+                    ? 'border-primary text-on-surface border-b-2 pb-1 font-bold'
+                    : 'text-on-surface-variant hover:text-on-surface'
+                } font-[family-name:var(--font-inter)] tracking-tight antialiased transition-colors`}
               >
                 {link.title}
               </Link>
@@ -92,7 +94,7 @@ export default function TopNavBar() {
                     isActive
                       ? 'border-primary text-on-surface border-l-2 pl-4 font-bold'
                       : 'text-on-surface-variant hover:text-on-surface pl-4'
-                  } py-3 font-body text-sm tracking-tight antialiased transition-colors`}
+                  } py-3 font-[family-name:var(--font-inter)] text-sm tracking-tight antialiased transition-colors`}
                 >
                   {link.title}
                 </Link>
