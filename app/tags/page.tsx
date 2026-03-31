@@ -23,7 +23,7 @@ export default async function Page() {
 
       <section className="editorial-grid">
         <aside>
-          <h2 className="text-on-surface-variant mb-8 font-[family-name:var(--font-manrope)] text-xs tracking-[0.2em] uppercase">
+          <h2 className="text-on-surface-variant mb-8 font-label text-xs tracking-[0.2em] uppercase">
             All Topics
           </h2>
         </aside>
@@ -33,7 +33,7 @@ export default async function Page() {
             <Link
               key={t}
               href={`/tags/${slug(t)}`}
-              className="bg-surface-container-low text-on-surface hover:bg-primary hover:text-on-primary rounded-md px-5 py-2.5 font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase transition-all"
+              className="bg-surface-container-low text-on-surface hover:bg-primary hover:text-on-primary rounded-md px-5 py-2.5 font-label text-[0.75rem] tracking-widest uppercase transition-all"
             >
               {t}
               <span className="ml-2 opacity-50">({tagCounts[t]})</span>

@@ -107,14 +107,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9f9fb" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0a09" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css"
-        rel="stylesheet"
-      />
       <body className="bg-background font-body text-on-background selection:bg-primary selection:text-on-primary antialiased">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
