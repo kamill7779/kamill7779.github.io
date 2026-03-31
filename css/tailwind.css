@@ -200,6 +200,7 @@
       margin-bottom: 2rem;
       line-height: 1.8;
       font-size: 1.125rem;
+      color: var(--color-on-surface);
     }
     & a {
       color: var(--color-primary);
@@ -210,9 +211,11 @@
     & :where(h1, h2) {
       font-weight: 700;
       letter-spacing: var(--tracking-tight);
+      color: var(--color-on-surface);
     }
     & h3 {
       font-weight: 600;
+      color: var(--color-on-surface);
     }
     & :where(code):not(pre code) {
       color: var(--color-primary);
@@ -222,24 +225,32 @@
       border-left: 3px solid var(--color-outline-variant);
       padding-left: 1.5rem;
       margin: 2rem 0;
+      color: var(--color-on-surface-variant);
+    }
+    & strong {
+      color: var(--color-on-surface);
     }
   }
 
   .prose-invert {
+    & p {
+      color: var(--color-on-surface);
+    }
     & a {
-      color: #c6c6c6;
+      color: var(--color-primary);
     }
     & :where(h1, h2, h3, h4, h5, h6) {
       color: var(--color-on-surface);
     }
-    & p {
-      color: #d4d0d4;
-    }
     & blockquote {
       border-left-color: var(--color-outline-variant);
+      color: var(--color-on-surface-variant);
     }
     & :where(code):not(pre code) {
-      color: #c6c6c6;
+      color: var(--color-primary);
+    }
+    & strong {
+      color: var(--color-on-surface);
     }
   }
 }
