@@ -36,7 +36,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
         </Link>
       </div>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-8 lg:grid-cols-[220px_1fr_180px]">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-8 lg:grid-cols-[220px_1fr_200px]">
         {/* Left sidebar — meta */}
         <aside className="order-2 lg:order-1">
           <div className="space-y-10 lg:sticky lg:top-32">
@@ -157,8 +157,8 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
 
         {/* Right — TOC */}
         {toc && toc.length > 0 && (
-          <aside className="order-3">
-            <nav className="lg:sticky lg:top-32">
+          <aside className="order-3 lg:self-start">
+            <nav className="no-scrollbar lg:sticky lg:top-32 lg:max-h-[calc(100vh-10rem)] lg:overflow-y-auto">
               <TableOfContents toc={toc} />
             </nav>
           </aside>
