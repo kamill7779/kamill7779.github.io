@@ -220,6 +220,9 @@
     & :where(h4, h5, h6) {
       color: var(--color-on-surface);
     }
+    & th {
+      color: var(--color-on-surface);
+    }
     & :where(code):not(pre code) {
       color: var(--color-primary);
     }
