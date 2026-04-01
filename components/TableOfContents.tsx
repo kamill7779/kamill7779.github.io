@@ -11,6 +11,9 @@ interface TocItem {
 export default function TableOfContents({ toc }: { toc: TocItem[] }) {
   const [activeId, setActiveId] = useState<string>('')
 
+  // Strip leading # from url to get the raw id
+  const getId = (url: string) => url.replace(/^#/, '')
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -24,7 +27,7 @@ export default function TableOfContents({ toc }: { toc: TocItem[] }) {
     )
 
     toc.forEach(({ url }) => {
-      const el = document.getElementById(url)
+      const el = document.getElementById(getId(url))
       if (el) observer.observe(el)
     })
 
@@ -37,27 +40,30 @@ export default function TableOfContents({ toc }: { toc: TocItem[] }) {
         Contents
       </h4>
       <ul className="space-y-1.5">
-        {toc.map(({ value, url, depth }) => (
-          <li key={url}>
-            <a
-              href={`#${url}`}
-              className={`block text-xs transition-colors ${
-                depth === 3 ? 'pl-3' : depth === 4 ? 'pl-6' : ''
-              } ${
-                activeId === url
-                  ? 'text-primary font-medium'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-              onClick={(e) => {
-                e.preventDefault()
-                document.getElementById(url)?.scrollIntoView({ behavior: 'smooth' })
-                setActiveId(url)
-              }}
-            >
-              {value}
-            </a>
-          </li>
-        ))}
+        {toc.map(({ value, url, depth }) => {
+          const id = getId(url)
+          return (
+            <li key={url}>
+              <a
+                href={`#${id}`}
+                className={`block text-xs transition-colors ${
+                  depth === 3 ? 'pl-3' : depth === 4 ? 'pl-6' : ''
+                } ${
+                  activeId === id
+                    ? 'text-primary font-medium'
+                    : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+                  setActiveId(id)
+                }}
+              >
+                {value}
+              </a>
+            </li>
+          )
+        })}
       </ul>
     </nav>
   )

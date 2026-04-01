@@ -39,7 +39,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <article className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-8 lg:grid-cols-12">
         {/* Sidebar */}
         <aside className="order-2 lg:order-1 lg:col-span-3">
-          <div className="sticky top-32 space-y-12">
+          <div className="sticky top-32 max-h-[calc(100vh-10rem)] space-y-12 overflow-y-auto">
             {/* Author */}
             <div className="space-y-4">
               <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
@@ -89,12 +89,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </span>
                 </p>
               </div>
-              {/* TOC */}
-              {toc && toc.length > 0 && (
-                <div className="border-outline-variant/20 border-t pt-4">
-                  <TableOfContents toc={toc} />
-                </div>
-              )}
               {/* Tags */}
               {tags && tags.length > 0 && (
                 <div className="border-outline-variant/20 border-t pt-4">
@@ -109,6 +103,12 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       </Link>
                     ))}
                   </div>
+                </div>
+              )}
+              {/* TOC */}
+              {toc && toc.length > 0 && (
+                <div className="border-outline-variant/20 border-t pt-4">
+                  <TableOfContents toc={toc} />
                 </div>
               )}
             </div>
