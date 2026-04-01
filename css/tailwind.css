@@ -217,6 +217,9 @@
       font-weight: 600;
       color: var(--color-on-surface);
     }
+    & :where(h4, h5, h6) {
+      color: var(--color-on-surface);
+    }
     & :where(code):not(pre code) {
       color: var(--color-primary);
     }
