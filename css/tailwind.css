@@ -227,6 +227,9 @@
       margin: 2rem 0;
       color: var(--color-on-surface-variant);
     }
+    & em {
+      color: var(--color-on-surface-variant);
+    }
     & strong {
       color: var(--color-on-surface);
     }

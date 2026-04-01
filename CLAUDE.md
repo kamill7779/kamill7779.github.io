@@ -48,6 +48,16 @@ data/
 ## Key Conventions
 
 - **Content**: MDX files in `data/blog/`, frontmatter: title, date, tags, summary
+- **Tags**: MUST use English. Prefer existing tags from the tag library below before creating new ones.
+
+## Tag Library
+
+When adding tags to new blog posts, prefer existing tags. Only add new tags when no existing tag fits.
+
+Existing tags:
+- `docker`, `vscode`, `devcontainer`
+- `network`, `socket`, `liso`, `http`
+- `networking`, `tcp`, `computer-networks`, `protocol`
 - **Styling**: Tailwind v4 with `@theme` in CSS (no tailwind.config.js)
 - **Dark mode**: `next-themes`, toggle in TopNavBar
 - **Fonts**: Inter (body/headline), Manrope (labels), Fira Code (mono) via next/font/google
