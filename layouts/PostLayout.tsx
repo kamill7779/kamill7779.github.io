@@ -36,14 +36,14 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
         </Link>
       </div>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-8 lg:grid-cols-12">
-        {/* Left sidebar — meta info */}
-        <aside className="order-2 lg:order-1 lg:col-span-3">
-          <div className="sticky top-32 space-y-12">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-8 lg:grid-cols-[220px_1fr_180px]">
+        {/* Left sidebar — meta */}
+        <aside className="order-2 lg:order-1">
+          <div className="space-y-10 lg:sticky lg:top-32">
             {/* Author */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
-                Curator
+                Author
               </h4>
               {authorDetails.map((author) => (
                 <div key={author.name} className="flex items-center gap-3">
@@ -58,58 +58,52 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       />
                     </div>
                   )}
-                  <div>
-                    <p className="text-on-surface text-sm font-bold">{author.name}</p>
-                  </div>
+                  <p className="text-on-surface text-sm font-bold">{author.name}</p>
                 </div>
               ))}
             </div>
-
-            {/* Meta */}
-            <div className="space-y-6">
-              <div className="space-y-1">
-                <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
-                  Published
-                </h4>
-                <p className="text-on-surface text-sm font-medium">
-                  {formatDate(date, siteMetadata.locale)}
-                </p>
-              </div>
-              {/* Page views */}
-              <div className="space-y-1">
-                <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
-                  Views
-                </h4>
-                <p className="text-on-surface text-sm font-medium">
-                  <span id="busuanzi_container_page_pv" className="hidden">
-                    <span className="material-symbols-outlined mr-1 align-middle text-xs">
-                      visibility
-                    </span>
-                    <span id="busuanzi_value_page_pv" />
-                  </span>
-                </p>
-              </div>
-              {/* Tags */}
-              {tags && tags.length > 0 && (
-                <div className="border-outline-variant/20 border-t pt-4">
-                  <div className="flex flex-wrap gap-2">
-                    {tags.map((tag) => (
-                      <Link
-                        key={tag}
-                        href={`/tags/${tag}`}
-                        className="bg-surface-container-lowest border-outline-variant/30 text-on-surface-variant hover:bg-primary hover:text-on-primary border px-2 py-1 font-[family-name:var(--font-manrope)] text-[10px] tracking-wider uppercase transition-all"
-                      >
-                        {tag}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
+            {/* Date */}
+            <div className="space-y-1">
+              <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
+                Published
+              </h4>
+              <p className="text-on-surface text-sm font-medium">
+                {formatDate(date, siteMetadata.locale)}
+              </p>
             </div>
-
-            {/* Prev/Next navigation */}
+            {/* Views */}
+            <div className="space-y-1">
+              <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
+                Views
+              </h4>
+              <p className="text-on-surface text-sm font-medium">
+                <span id="busuanzi_container_page_pv" className="hidden">
+                  <span className="material-symbols-outlined mr-1 align-middle text-xs">
+                    visibility
+                  </span>
+                  <span id="busuanzi_value_page_pv" />
+                </span>
+              </p>
+            </div>
+            {/* Tags */}
+            {tags && tags.length > 0 && (
+              <div className="border-outline-variant/20 border-t pt-4">
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`/tags/${tag}`}
+                      className="bg-surface-container-lowest border-outline-variant/30 text-on-surface-variant hover:bg-primary hover:text-on-primary border px-2 py-1 font-[family-name:var(--font-manrope)] text-[10px] tracking-wider uppercase transition-all"
+                    >
+                      {tag}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+            {/* Prev/Next */}
             {(prev || next) && (
-              <div className="border-outline-variant/20 space-y-4 border-t pt-4">
+              <div className="border-outline-variant/20 space-y-3 border-t pt-4">
                 {prev && prev.path && (
                   <div>
                     <h4 className="text-on-surface-variant mb-1 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase">
@@ -141,8 +135,8 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           </div>
         </aside>
 
-        {/* Main article content */}
-        <article className="order-1 lg:order-2 lg:col-span-6 lg:col-start-4">
+        {/* Center — article */}
+        <article className="order-1 min-w-0 lg:order-2">
           <header className="mb-20">
             <h1 className="text-primary mb-8 text-5xl leading-[1.1] font-black tracking-tighter md:text-6xl">
               {title}
@@ -154,8 +148,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             )}
           </header>
           <div className="prose text-on-surface max-w-none">{children}</div>
-
-          {/* Comments */}
           {siteMetadata.comments && (
             <div className="border-outline-variant/20 mt-24 border-t pt-12" id="comment">
               <Comments slug={slug} />
@@ -163,12 +155,12 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           )}
         </article>
 
-        {/* Right sidebar — TOC */}
+        {/* Right — TOC */}
         {toc && toc.length > 0 && (
-          <aside className="order-3 lg:col-span-3">
-            <div className="sticky top-32">
+          <aside className="order-3">
+            <nav className="lg:sticky lg:top-32">
               <TableOfContents toc={toc} />
-            </div>
+            </nav>
           </aside>
         )}
       </div>
