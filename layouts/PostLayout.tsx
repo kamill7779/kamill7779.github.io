@@ -36,10 +36,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
         </Link>
       </div>
 
-      <article className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-8 lg:grid-cols-12">
-        {/* Sidebar */}
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-8 lg:grid-cols-12">
+        {/* Left sidebar — meta info */}
         <aside className="order-2 lg:order-1 lg:col-span-3">
-          <div className="sticky top-32 max-h-[calc(100vh-10rem)] space-y-12 overflow-y-auto">
+          <div className="sticky top-32 space-y-12">
             {/* Author */}
             <div className="space-y-4">
               <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
@@ -105,12 +105,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </div>
                 </div>
               )}
-              {/* TOC */}
-              {toc && toc.length > 0 && (
-                <div className="border-outline-variant/20 border-t pt-4">
-                  <TableOfContents toc={toc} />
-                </div>
-              )}
             </div>
 
             {/* Prev/Next navigation */}
@@ -147,8 +141,8 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           </div>
         </aside>
 
-        {/* Main content */}
-        <div className="order-1 lg:order-2 lg:col-span-8 lg:col-start-5">
+        {/* Main article content */}
+        <article className="order-1 lg:order-2 lg:col-span-6 lg:col-start-4">
           <header className="mb-20">
             <h1 className="text-primary mb-8 text-5xl leading-[1.1] font-black tracking-tighter md:text-6xl">
               {title}
@@ -167,8 +161,17 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               <Comments slug={slug} />
             </div>
           )}
-        </div>
-      </article>
+        </article>
+
+        {/* Right sidebar — TOC */}
+        {toc && toc.length > 0 && (
+          <aside className="order-3 lg:col-span-3">
+            <div className="sticky top-32">
+              <TableOfContents toc={toc} />
+            </div>
+          </aside>
+        )}
+      </div>
     </main>
   )
 }

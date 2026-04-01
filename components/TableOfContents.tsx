@@ -11,7 +11,6 @@ interface TocItem {
 export default function TableOfContents({ toc }: { toc: TocItem[] }) {
   const [activeId, setActiveId] = useState<string>('')
 
-  // Strip leading # from url to get the raw id
   const getId = (url: string) => url.replace(/^#/, '')
 
   useEffect(() => {
@@ -36,21 +35,22 @@ export default function TableOfContents({ toc }: { toc: TocItem[] }) {
 
   return (
     <nav>
-      <h4 className="text-on-surface-variant mb-3 font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
-        Contents
+      <h4 className="text-on-surface-variant mb-4 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase">
+        On this page
       </h4>
-      <ul className="space-y-1.5">
+      <ul className="border-outline-variant/30 space-y-1 border-l">
         {toc.map(({ value, url, depth }) => {
           const id = getId(url)
+          const isActive = activeId === id
           return (
             <li key={url}>
               <a
                 href={`#${id}`}
-                className={`block text-xs transition-colors ${
-                  depth === 3 ? 'pl-3' : depth === 4 ? 'pl-6' : ''
+                className={`block py-0.5 text-xs transition-colors ${
+                  depth === 3 ? 'pl-4' : depth === 4 ? 'pl-7' : 'pl-2'
                 } ${
-                  activeId === id
-                    ? 'text-primary font-medium'
+                  isActive
+                    ? 'border-primary text-primary -ml-px border-l-2 font-medium'
                     : 'text-on-surface-variant hover:text-on-surface'
                 }`}
                 onClick={(e) => {
