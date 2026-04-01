@@ -11,6 +11,7 @@ import ReadingProgress from '@/components/ReadingProgress'
 import ScrollTop from '@/components/ScrollTop'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
+import Script from 'next/script'
 import { Metadata } from 'next'
 
 const inter = Inter({
@@ -118,6 +119,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-background font-body text-on-background selection:bg-primary selection:text-on-primary antialiased">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
+          <Script
+            async
+            src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+            strategy="afterInteractive"
+          />
           <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
             <TopNavBar />
             <ReadingProgress />

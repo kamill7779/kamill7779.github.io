@@ -74,6 +74,20 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   {formatDate(date, siteMetadata.locale)}
                 </p>
               </div>
+              {/* Page views */}
+              <div className="space-y-1">
+                <h4 className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
+                  Views
+                </h4>
+                <p className="text-on-surface text-sm font-medium">
+                  <span id="busuanzi_container_page_pv" className="hidden">
+                    <span className="material-symbols-outlined mr-1 align-middle text-xs">
+                      visibility
+                    </span>
+                    <span id="busuanzi_value_page_pv" />
+                  </span>
+                </p>
+              </div>
               {/* Tags */}
               {tags && tags.length > 0 && (
                 <div className="border-outline-variant/20 border-t pt-4">

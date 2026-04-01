@@ -10,6 +10,18 @@ export default function Footer() {
         <div className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase opacity-60">
           &copy; {new Date().getFullYear()} {siteMetadata.author}. Built with precision.
         </div>
+        <div className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase opacity-60">
+          <span id="busuanzi_container_site_uv" className="hidden">
+            <span className="material-symbols-outlined mr-1 align-middle text-xs">group</span>
+            <span id="busuanzi_value_site_uv" />
+            {' visitors \u00B7 '}
+          </span>
+          <span id="busuanzi_container_site_pv" className="hidden">
+            <span className="material-symbols-outlined mr-1 align-middle text-xs">visibility</span>
+            <span id="busuanzi_value_site_pv" />
+            {' views'}
+          </span>
+        </div>
         <div className="flex gap-8">
           <a
             className="text-on-surface-variant hover:text-on-surface font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase transition-colors"
