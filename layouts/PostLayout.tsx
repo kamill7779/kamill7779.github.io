@@ -157,7 +157,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
 
         {/* Right — TOC */}
         {toc && toc.length > 0 && (
-          <aside className="order-3 lg:self-start">
+          <aside className="order-3">
             <nav className="no-scrollbar lg:sticky lg:top-32 lg:max-h-[calc(100vh-10rem)] lg:overflow-y-auto">
               <TableOfContents toc={toc} />
             </nav>
