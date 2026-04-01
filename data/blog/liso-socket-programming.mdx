@@ -1,7 +1,7 @@
 ---
 title: Socket Programming 实验启动教学：Liso 项目从启动到可解析请求
 date: '2026-02-08'
-tags: ['network', 'socket', 'liso', 'http']
+tags: ['networking', 'socket', 'liso', 'http']
 summary: 从 Docker 容器搭建到 HTTP 报文解析，帮助你在项目前期抓住重点，顺利启动 Liso Web Server 项目。
 ---
 
@@ -9,9 +9,9 @@ summary: 从 Docker 容器搭建到 HTTP 报文解析，帮助你在项目前期
 
 本项目源于 CMU 课程作业项目 **15-441: Computer Networks Project 1: A Web Server Called Liso**。本文主要结合天津大学《计算机网络》课程中 Socket Programming 实验的具体要求进行讲解。
 
-> **声明**：本文为个人实验记录与理解总结，**仅供参考**。我更希望读者在理解原理的基础上自己实现，而不是直接复制粘贴本文代码（毕竟说要查重的）；不同环境/版本下细节可能存在差异。若你发现文中错误，欢迎邮件联系我（请在邮件标题注明 *Liso/Lab1*），我会尽量核实并更新。
+> **声明**：本文为个人实验记录与理解总结，**仅供参考**。我更希望读者在理解原理的基础上自己实现，而不是直接复制粘贴本文代码（毕竟说要查重的）；不同环境/版本下细节可能存在差异。若你发现文中错误，欢迎邮件联系我（请在邮件标题注明 _Liso/Lab1_），我会尽量核实并更新。
 
-基于学校提供的参考资料、Socket 编程实践指导书，以及四周任务完成表，整体实验难度已经有所下降。但在这一前提下，项目的**启动阶段**依然是最容易卡住的部分。  因此，本文的目标是帮助我们在项目前期抓住重点，并对课程中尚未涉及或涉及较少的内容做补充说明，重点放在“如何顺利启动项目”这件事上。
+基于学校提供的参考资料、Socket 编程实践指导书，以及四周任务完成表，整体实验难度已经有所下降。但在这一前提下，项目的**启动阶段**依然是最容易卡住的部分。 因此，本文的目标是帮助我们在项目前期抓住重点，并对课程中尚未涉及或涉及较少的内容做补充说明，重点放在“如何顺利启动项目”这件事上。
 
 > 实际上，项目的核心难点集中在第一周，以及第四周：在需要理解 IO 多路复用的前提下，还要完成较大规模的代码重构。相比之下，第二、第三周任务主要是根据 RFC 文档对协议文本做正确处理。
 
@@ -21,7 +21,7 @@ summary: 从 Docker 容器搭建到 HTTP 报文解析，帮助你在项目前期
 
 ### 1.1. 基础设施1：Docker
 
-先不着急上手代码。这个项目的基础设施是 Docker。  如果对 Docker 还不熟悉，我们可以先阅读这篇入门文章：  [“一劳永逸”的开发容器入门：Docker 容器 + VS Code 全流程](https://kamill7779.github.io/blog/2026/02/04/%E2%80%9C%E4%B8%80%E5%8A%B3%E6%B0%B8%E9%80%B8%E2%80%9D%20%E7%9A%84%E5%BC%80%E5%8F%91%E5%AE%B9%E5%99%A8%E5%85%A5%E9%97%A8%20%EF%BC%9ADocker%20%E5%AE%B9%E5%99%A8%20+%20VS%20Code%20%E5%85%A8%E6%B5%81%E7%A8%8B/)，可以动手操作一下熟悉连接开发容器的流程。
+先不着急上手代码。这个项目的基础设施是 Docker。 如果对 Docker 还不熟悉，我们可以先阅读这篇入门文章： [“一劳永逸”的开发容器入门：Docker 容器 + VS Code 全流程](https://kamill7779.github.io/blog/2026/02/04/%E2%80%9C%E4%B8%80%E5%8A%B3%E6%B0%B8%E9%80%B8%E2%80%9D%20%E7%9A%84%E5%BC%80%E5%8F%91%E5%AE%B9%E5%99%A8%E5%85%A5%E9%97%A8%20%EF%BC%9ADocker%20%E5%AE%B9%E5%99%A8%20+%20VS%20Code%20%E5%85%A8%E6%B5%81%E7%A8%8B/)，可以动手操作一下熟悉连接开发容器的流程。
 
 如果希望使用 VS Code 连接开发容器开发，你还需要修改一下 Dockerfile ，完整修改如下：
 
@@ -53,7 +53,6 @@ WORKDIR /home
   "workspaceMount": "source=${localWorkspaceFolder},target=/home/project-1,type=bind,consistency=cached",
   "runArgs": ["-p", "127.0.0.1:8888:15441"]
 }
-
 ```
 
 > 每次使用 VS Code 连接开发容器都能够按照要求进行挂载和端口映射了。
@@ -121,7 +120,7 @@ WORKDIR /home
 带着这个问题我们去阅读 `example.c` 的代码，我们会发现：主流程里几乎没有任何“手写字符串切割”逻辑，核心只有这一句：
 
 ```
-Request *request = parse(buf, readRet, fd_in); 
+Request *request = parse(buf, readRet, fd_in);
 ```
 
 也就是说，代码中`open + read` 读进来的原始报文，经过一次 parse() 调用，就被转换成了 `Request` 对象；后面的代码只是在打印 http_method、http_uri、http_version 和 headers。这和我们最开始“写一堆 strstr/strtok 手工切字符串”的想象完全不同：真正复杂的工作被封装进了解析器内部。
@@ -143,13 +142,13 @@ Request *request = parse(buf, readRet, fd_in);
 >
 > 1. **避免把不完整数据交给语法解析器**：网络读取天然可能出现半包。一次 recv 读到的可能只是 GET / HTTP/1.1\r\nHo。如果这时就调用语法解析就不能成功，而且这个失败是因为“数据还没收全”。先用状态机找 `\r\n\r\n`，能保证进入语法层的是“完整头部”。
 > 2. **把“边界问题”和“语义问题”拆开**
->     状态机只负责回答：头部是否完整、结束在哪。lex/yacc 才负责回答：方法是否合法、header 格式对不对。
->     这样分层后，错误定位非常清楚：
+>    状态机只负责回答：头部是否完整、结束在哪。lex/yacc 才负责回答：方法是否合法、header 格式对不对。
+>    这样分层后，错误定位非常清楚：
 >    - 找不到 \r\n\r\n：是分帧阶段问题（可能数据未收全或格式损坏）
 >    - yyparse() 失败：是语法阶段问题（字段结构不符合规则）
 > 3. **性能和稳定性更好**
->     状态机是一趟线性扫描，O(n)，几乎不分配额外内存。
->     相比“到处 strstr 搜索 + 多次切片拷贝”，这种方式更可控，也更适合后续处理 pipelining 和并发连接。
+>    状态机是一趟线性扫描，O(n)，几乎不分配额外内存。
+>    相比“到处 strstr 搜索 + 多次切片拷贝”，这种方式更可控，也更适合后续处理 pipelining 和并发连接。
 
 对于如下的示例报文：
 
@@ -219,26 +218,26 @@ request: request_line request_header t_crlf;
 它们可以理解为“一个符号如何展开成更小的符号”（实际上是编译原理的文法推导，在这里大家很可能没学过）。为了直观，我们先看一个小例子：
 
 ```
-A -> B E 
-B -> C D 
+A -> B E
+B -> C D
 ```
 
 那么 A 就可以继续展开成：
 
 ```
-A -> C D E 
+A -> C D E
 ```
 
 如果再加一条“归约规则”（把一段组合再折叠回一个新符号）：
 
 ```
-C D E -> F 
+C D E -> F
 ```
 
 那我们就能得到：
 
 ```
-A -> F 
+A -> F
 ```
 
 这就是 parser 在做的核心动作：**先按规则展开/匹配，再把匹配到的片段归约成一个更高层的结构**。
@@ -293,10 +292,10 @@ parsing_request->header_count++;
 request->headers = (Request_header *) malloc(sizeof(Request_header)*1);
 ```
 
-也就是我们只给 `headers` 分配了能存放一个 `Request_header` 大小的空间，TODO 也提示我们了要实现 `risizing`  ，也就是要在 `parser.y` 中写扩容代码，在 `headers` 的容量被填满的时候再为他分配额外的空间，相信在学习数据结构的时候你已经明白：（1）如何去**正确**实现扩容代码，（2）如何**高性能**实现扩容。
+也就是我们只给 `headers` 分配了能存放一个 `Request_header` 大小的空间，TODO 也提示我们了要实现 `risizing` ，也就是要在 `parser.y` 中写扩容代码，在 `headers` 的容量被填满的时候再为他分配额外的空间，相信在学习数据结构的时候你已经明白：（1）如何去**正确**实现扩容代码，（2）如何**高性能**实现扩容。
 
 > （1）正确实现扩容的关键是严格遵循容量增长后对**内存重新分配、边界检查与元素拷贝/移动**的完整流程，确保数据不丢失且指针与元数据一致。
->  （2）高性能扩容的关键是采用合理的**增长策略**（如倍增）、最小化拷贝次数并优先使用连续内存和批量移动，以降低摊销成本并减少缓存失效。
+> （2）高性能扩容的关键是采用合理的**增长策略**（如倍增）、最小化拷贝次数并优先使用连续内存和批量移动，以降低摊销成本并减少缓存失效。
 
 **标准做法：**
 
@@ -475,7 +474,7 @@ send(client_sock, buf, readret, 0);
 
 ```
 while((readret = recv(client_sock, buf, BUF_SIZE, 0)) >= 1){
-    // 在这里调用 parse ，得到一个 *Request 
+    // 在这里调用 parse ，得到一个 *Request
 }
 ```
 
@@ -497,11 +496,11 @@ while((readret = recv(client_sock, buf, BUF_SIZE, 0)) >= 1){
 最初版本里，parse 的签名是：
 
 ```
-Request * parse(char *buffer, int size, int socketFd); 
+Request * parse(char *buffer, int size, int socketFd);
 ```
 
-这个设计有一个核心问题：它只有“返回 Request* 或 NULL”两种结果。
- 但在 TCP 字节流场景里，NULL 其实可能代表三种完全不同的情况：
+这个设计有一个核心问题：它只有“返回 Request\* 或 NULL”两种结果。
+但在 TCP 字节流场景里，NULL 其实可能代表三种完全不同的情况：
 
 1. 当前数据只是**不完整**（应该继续 recv）
 2. 报文**格式错误**（应该返回 400 Bad request）
@@ -622,14 +621,14 @@ static int get_content_length(const Request *req, size_t *out_len)
 可以按 4 步理解：
 
 1. **解析并校验 Content-Length**
-    `get_content_length()` 会在 headers 中查找并解析 Content-Length。如果字段值不是合法非负整数（例如有脏字符、负数），直接判定为 `PARSE_BAD_REQUEST` 。
+   `get_content_length()` 会在 headers 中查找并解析 Content-Length。如果字段值不是合法非负整数（例如有脏字符、负数），直接判定为 `PARSE_BAD_REQUEST` 。
 2. **计算“完整请求”应有的总长度**
-    `完整长度 = header_len + content_len`
-    其中 header_len 是 \r\n\r\n 结束位置，content_len 是请求体长度。
+   `完整长度 = header_len + content_len`
+   其中 header_len 是 \r\n\r\n 结束位置，content_len 是请求体长度。
 3. **判断当前缓冲区是否收全**
-    如果 `size < header_len + content_len` ，说明这次 recv 只拿到了部分 body，这时不能报 400，而应返回 `PARSE_INCOMPLETE` ，让上层继续读。
+   如果 `size < header_len + content_len` ，说明这次 recv 只拿到了部分 body，这时不能报 400，而应返回 `PARSE_INCOMPLETE` ，让上层继续读。
 4. **仅在语法正确 + 数据完整时返回成功**
-    设置 out_request 和 out_consumed，再返回 `PARSE_OK` 。这样 server 才能安全地处理本次请求，并知道应当从缓冲区消费多少字节。(不知道我们处理了多少字节的话，粘包一旦发生就不知道哪里是上一个包的末尾，哪里是下一个包的开始了)
+   设置 out_request 和 out_consumed，再返回 `PARSE_OK` 。这样 server 才能安全地处理本次请求，并知道应当从缓冲区消费多少字节。(不知道我们处理了多少字节的话，粘包一旦发生就不知道哪里是上一个包的末尾，哪里是下一个包的开始了)
 
 #### 3.3. 主循环与粘包处理
 
@@ -727,9 +726,9 @@ static int send_all(int sock, const char *buf, size_t len)
 ```
 
 > - close_socket：统一关闭 socket 的行为和错误处理。
->    如果每个分支都手写 close()，很容易漏掉错误检查，或者在多处逻辑里写出不一致的收尾代码。封装后可读性和一致性都更好。
+>   如果每个分支都手写 close()，很容易漏掉错误检查，或者在多处逻辑里写出不一致的收尾代码。封装后可读性和一致性都更好。
 > - send_all：保证“把该发的数据完整发出去”。
->    send() 在 TCP 下并不保证一次就把 len 字节全部发送完成，可能出现**短写**。如果我们只调用一次 send()，就可能只发出半个响应头，客户端看到的就是残缺报文。send_all 用循环把剩余字节继续发送，直到全部发完或明确失败。
+>   send() 在 TCP 下并不保证一次就把 len 字节全部发送完成，可能出现**短写**。如果我们只调用一次 send()，就可能只发出半个响应头，客户端看到的就是残缺报文。send_all 用循环把剩余字节继续发送，直到全部发完或明确失败。
 >
 > 所以这两个函数本质上是：**把重复且容易出错的系统调用细节收敛起来，让主循环只关注协议流程。**
 
@@ -746,11 +745,11 @@ while (!close_conn && (readret = recv(client_sock, buf + used, sizeof(buf) - use
 这个条件本身就编码了三层语义：
 
 1. `!close_conn`：业务上还允许继续处理这个连接。
-    一旦我们已经判定要关闭（比如发送了 400），就不应继续读。
+   一旦我们已经判定要关闭（比如发送了 400），就不应继续读。
 2. `buf + used`：新数据追加到“未处理残留”后面。
-    这是为了解决半包：上次可能只收到一半请求，不能覆盖旧数据。
+   这是为了解决半包：上次可能只收到一半请求，不能覆盖旧数据。
 3. `sizeof(buf) - used`：只使用缓冲区剩余空间。
-    防止写越界，同时把“空间是否耗尽”纳入控制流（后面有 used == sizeof(buf) 的保护分支）。
+   防止写越界，同时把“空间是否耗尽”纳入控制流（后面有 used == sizeof(buf) 的保护分支）。
 
 然后每轮 recv 之后，内层 `for (;;)` 做的是**尽可能多地从当前缓存里拆请求**（每层 while 的开始都会读一些内容到 buf 中，在 for 中 break 就意味着继续读）：
 
@@ -777,14 +776,14 @@ echo_server: $(OBJ_DIR)/echo_server.o
 
 这条规则只把 `echo_server.o` 链接成可执行文件，但现在我们在 `echo_server.c` 实际调用了 `parse()`，因此需要修改，那么原本使用了 `parse()` 方法的 `example.c` 如何在 `Makefile` 中写的就很有参考意义。
 
- `parse()` 的实现并不在 `echo_server.o`，而在：
+`parse()` 的实现并不在 `echo_server.o`，而在：
 
 - `parse.o`（`parse.c` 编译出来的）
 - 以及解析器依赖的 `y.tab.o`、`lex.yy.o`（由 `yacc/flex` 生成的 `.c` 再编译出来的）
 
 因此只链接一个 `echo_server.o`，就会出现 `undefined reference` 这种典型链接错误。
 
-------
+---
 
 #### 4.1.2. 编译 vs 链接
 
@@ -795,7 +794,7 @@ echo_server: $(OBJ_DIR)/echo_server.o
 
 `#include "parse.h"` 只提供函数声明，并不会把函数实现自动带进来；实现是否存在，取决于链接阶段有没有把对应 `.o` 放进去。因此我们的任务就是把函数实现放进去！
 
-------
+---
 
 #### 4.1.3. 正确做法
 
@@ -846,7 +845,7 @@ gcc -Werror obj/echo_server.o obj/y.tab.o obj/lex.yy.o obj/parse.o -o echo_serve
 
 ### 4.2. 展示结果
 
-首先`make clean`，  `make`，然后 `./echo_server` 运行我们的服务端，随后在本机浏览器（我这里是 Chrome ）中输入 `http://127.0.0.1:8888/` （避免走 `HTTPS` 方法，需要完整输入）(记得在 `./echo_server` 中把端口修改为 `15441`)
+首先`make clean`， `make`，然后 `./echo_server` 运行我们的服务端，随后在本机浏览器（我这里是 Chrome ）中输入 `http://127.0.0.1:8888/` （避免走 `HTTPS` 方法，需要完整输入）(记得在 `./echo_server` 中把端口修改为 `15441`)
 
 ![image-20260208182831933](/static/images/posts/liso-socket-programming/image-20260208182831933.png)
 
@@ -859,7 +858,7 @@ gcc -Werror obj/echo_server.o obj/y.tab.o obj/lex.yy.o obj/parse.o -o echo_serve
 ### 4.3. 协议设计（目前阶段）
 
 1. **请求消息解析方法**
-   `parse()`  实现分帧 + 语法 + 完整性校验。先用状态机扫描 `\r\n\r\n` 找到头部结束位置（`header_len`），再把头部交给 `yyparse()` 做语法归约（方法/URI/版本/headers 落入 Request 结构体），最后读取并校验 Content-Length。若 `size < header_len + content_len` 返回 `PARSE_INCOMPLETE` ；语法或长度非法返回 `PARSE_BAD_REQUEST` ；只有**语法正确且数据完整**才返回 PARSE_OK，并通过 `out_consumed` 告知本次消费字节数。
+   `parse()` 实现分帧 + 语法 + 完整性校验。先用状态机扫描 `\r\n\r\n` 找到头部结束位置（`header_len`），再把头部交给 `yyparse()` 做语法归约（方法/URI/版本/headers 落入 Request 结构体），最后读取并校验 Content-Length。若 `size < header_len + content_len` 返回 `PARSE_INCOMPLETE` ；语法或长度非法返回 `PARSE_BAD_REQUEST` ；只有**语法正确且数据完整**才返回 PARSE_OK，并通过 `out_consumed` 告知本次消费字节数。
 2. **接收缓冲区设计**
    服务端使用固定接收缓冲区（`BUF_SIZE = MAX_HEADER_SIZE`），`used` 记录已占用字节。每次 `recv` 追加到 `buf + used`，随后循环调用 parse() 尽可能多地解析请求。成功后通过 `memmove(buf, buf + consumed, used - consumed)` 前移剩余数据，实现半包保留与粘包拆分；PARSE_INCOMPLETE 则继续收包；缓冲区打满仍无法推进时返回 400 并关闭连接。（你也可以在第一周去掉有关粘包的处理）
 3. **日志记录模块设计**

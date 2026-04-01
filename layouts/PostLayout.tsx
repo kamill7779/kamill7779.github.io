@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog, Authors } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
+import TableOfContents from '@/components/TableOfContents'
 import Link from 'next/link'
 import Image from '@/components/Image'
 import siteMetadata from '@/data/siteMetadata'
@@ -16,7 +17,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { path, slug, date, title, tags, summary } = content
+  const { path, slug, date, title, tags, summary, toc } = content
 
   return (
     <main className="pt-32 pb-24">
@@ -88,6 +89,12 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </span>
                 </p>
               </div>
+              {/* TOC */}
+              {toc && toc.length > 0 && (
+                <div className="border-outline-variant/20 border-t pt-4">
+                  <TableOfContents toc={toc} />
+                </div>
+              )}
               {/* Tags */}
               {tags && tags.length > 0 && (
                 <div className="border-outline-variant/20 border-t pt-4">

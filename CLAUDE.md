@@ -56,8 +56,8 @@ When adding tags to new blog posts, prefer existing tags. Only add new tags when
 
 Existing tags:
 - `docker`, `vscode`, `devcontainer`
-- `network`, `socket`, `liso`, `http`
-- `networking`, `tcp`, `computer-networks`, `protocol`
+- `networking`, `socket`, `liso`, `http`
+- `tcp`, `computer-networks`, `protocol`
 - **Styling**: Tailwind v4 with `@theme` in CSS (no tailwind.config.js)
 - **Dark mode**: `next-themes`, toggle in TopNavBar
 - **Fonts**: Inter (body/headline), Manrope (labels), Fira Code (mono) via next/font/google
