@@ -1,4 +1,4 @@
-# AGENTS.md �� Blog Agent Operating Contract
+﻿# AGENTS.md — Blog Agent Operating Contract
 
 `AGENTS.md` is the canonical source of truth for agent workflow in this repository.
 `CLAUDE.md` is only a compatibility entrypoint and must delegate back here.
@@ -9,7 +9,8 @@ Before changing code, content, or docs:
 
 1. Read this file first.
 2. Read `docs/plans/2026-04-11-blog-knowledge-sync-design.md` when working on workflow enforcement.
-3. Check the knowledge-base sync contract in Section 6 before committing.
+3. Read `docs/knowledge-sync-runbook.md` when the hook blocks a commit.
+4. Check the knowledge-base sync contract in Section 6 before committing.
 
 ## 2. Project Snapshot
 
@@ -25,6 +26,7 @@ Use these files as the primary sources:
 
 - Workflow contract: `AGENTS.md`
 - Compatibility entrypoint: `CLAUDE.md`
+- Knowledge sync runbook: `docs/knowledge-sync-runbook.md`
 - Theme and design tokens: `css/tailwind.css`
 - Site metadata: `data/siteMetadata.js`
 - Navigation: `data/headerNavLinks.ts`
@@ -76,7 +78,8 @@ Local enforcement:
 
 - Hook entrypoint: `.husky/pre-commit`
 - Grader: `scripts/knowledge-sync-guard.mjs`
-- Manual run: `yarn check:knowledge-sync`
+- Manual run: `npm run --silent check:knowledge-sync`
+- Failure handling: `docs/knowledge-sync-runbook.md`
 
 ## 7. Commit Checklist
 
@@ -84,7 +87,7 @@ Before commit:
 
 1. Run `npm run build` for code or layout changes.
 2. Make sure the relevant knowledge-base note was updated.
-3. Run `yarn check:knowledge-sync` if you changed workflow, content, or design files.
+3. Run `npm run --silent check:knowledge-sync` if you changed workflow, content, or design files.
 4. Do not split workflow rules between `AGENTS.md` and `CLAUDE.md`.
 
 ## 8. Handoff Rule
