@@ -239,7 +239,7 @@ Edit the layout in `app` or content in `data`. With live reloading, the pages au
 
 `layouts` - main templates used in pages:
 
-- There are currently 3 post layouts available: `PostLayout`, `PostSimple` and `PostBanner`. `PostLayout` is the default 2 column layout with meta and author information. `PostSimple` is a simplified version of `PostLayout`, while `PostBanner` features a banner image.
+- There are currently 4 post layouts available: `PostLayout`, `PostSimple`, `PostBanner`, and `PostMedium`. `PostLayout` is the default 2 column layout with meta and author information. `PostSimple` is a simplified version of `PostLayout`, `PostBanner` features a banner image, and `PostMedium` is a tighter long-form editorial layout with inline TOC and condensed metadata.
 - There are 2 blog listing layouts: `ListLayout`, the layout used in version 1 of the template with a search bar and `ListLayoutWithTags`, currently used in version 2, which omits the search bar but includes a sidebar with information on the tags.
 
 `app` - pages to route to. Read the [Next.js documentation](https://nextjs.org/docs/app) for more information.
@@ -265,7 +265,7 @@ draft (optional)
 summary (optional)
 images (optional)
 authors (optional list which should correspond to the file names in `data/authors`. Uses `default` if none is specified)
-layout (optional list which should correspond to the file names in `data/layouts`)
+layout (optional string which should correspond to a layout component name)
 canonicalUrl (optional, canonical url for the post for SEO)
 ```
 

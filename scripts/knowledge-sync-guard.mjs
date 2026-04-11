@@ -9,7 +9,10 @@ export const BLOG_INVENTORY_NOTE = 'E:/Document/Documents/10 Projects/my-blog - 
 const BLOG_REPO_ROOT = 'E:/Project/my-blog'
 
 function normalizeToPosix(value) {
-  return value.replace(/\\/g, '/').replace(/\/+/g, '/').replace(/^[a-z]:/, (m) => m.toUpperCase())
+  return value
+    .replace(/\\/g, '/')
+    .replace(/\/+/g, '/')
+    .replace(/^[a-z]:/, (m) => m.toUpperCase())
 }
 
 export function normalizePath(value) {
@@ -54,7 +57,9 @@ export function validateAgentDocsContract({ fileContents }) {
     }
 
     if (!includesAny(claude, [/compatibility/i, /read `?AGENTS\.md`? first/i])) {
-      errors.push('CLAUDE.md must stay a thin compatibility wrapper instead of a second workflow document.')
+      errors.push(
+        'CLAUDE.md must stay a thin compatibility wrapper instead of a second workflow document.'
+      )
     }
   }
 
@@ -72,7 +77,9 @@ function needsInventoryNote(stagedPath) {
 function needsProjectNote(stagedPath) {
   if (/^data\/blog\/.*\.mdx$/i.test(stagedPath)) return false
   return (
-    /^(AGENTS\.md|CLAUDE\.md|README\.md|package\.json|contentlayer\.config\.ts)$/i.test(stagedPath) ||
+    /^(AGENTS\.md|CLAUDE\.md|README\.md|package\.json|contentlayer\.config\.ts)$/i.test(
+      stagedPath
+    ) ||
     /^(app|components|layouts|css|data)\//i.test(stagedPath) ||
     /^\.husky\//i.test(stagedPath) ||
     /^scripts\//i.test(stagedPath)
@@ -88,7 +95,9 @@ export function evaluateKnowledgeSync({
   const errors = []
   const normalizedStaged = [...new Set((stagedFiles || []).map((file) => normalizeToPosix(file)))]
   const normalizedExisting = new Set([...(existingFiles || [])].map((file) => normalizePath(file)))
-  const normalizedUpdated = new Set([...(updatedExternalFiles || [])].map((file) => normalizePath(file)))
+  const normalizedUpdated = new Set(
+    [...(updatedExternalFiles || [])].map((file) => normalizePath(file))
+  )
 
   const contract = validateAgentDocsContract({ fileContents })
   errors.push(...contract.errors)
@@ -111,7 +120,9 @@ export function evaluateKnowledgeSync({
   }
 
   if (requiresProject && !normalizedUpdated.has(BLOG_PROJECT_NOTE)) {
-    errors.push(`Project or workflow files changed. Update the project note before committing: ${BLOG_PROJECT_NOTE}`)
+    errors.push(
+      `Project or workflow files changed. Update the project note before committing: ${BLOG_PROJECT_NOTE}`
+    )
   }
 
   return { ok: errors.length === 0, errors }
@@ -145,6 +156,7 @@ function loadBlogInventoryRows(repoRoot) {
         title: (meta.title || '').replace(/^['"]|['"]$/g, ''),
         slug,
         date: (meta.date || '').replace(/^['"]|['"]$/g, ''),
+        layout: (meta.layout || 'PostLayout').replace(/^['"]|['"]$/g, ''),
         tags: (meta.tags || '').trim(),
         summary: (meta.summary || '').replace(/^['"]|['"]$/g, ''),
         source: `data/blog/${entry}`,
@@ -154,13 +166,19 @@ function loadBlogInventoryRows(repoRoot) {
 
 export function renderInventoryTable(rows) {
   const header = [
-    '| Title | Slug | Date | Tags | Summary | Source |',
-    '| --- | --- | --- | --- | --- | --- |',
+    '| Title | Slug | Date | Layout | Tags | Summary | Source |',
+    '| --- | --- | --- | --- | --- | --- | --- |',
   ]
   const body = rows.map((row) => {
-    const values = [row.title, row.slug, row.date, row.tags, row.summary, row.source].map((value) =>
-      String(value || '').replace(/\|/g, '\\|')
-    )
+    const values = [
+      row.title,
+      row.slug,
+      row.date,
+      row.layout,
+      row.tags,
+      row.summary,
+      row.source,
+    ].map((value) => String(value || '').replace(/\|/g, '\\|'))
     return `| ${values.join(' | ')} |`
   })
   return [...header, ...body].join('\n')
@@ -201,7 +219,11 @@ function collectUpdatedExternalFiles(stagedFiles) {
     updated.add(BLOG_INVENTORY_NOTE)
   }
 
-  if (stagedFiles.some(needsProjectNote) && projectNoteLooksValid() && existsSync(BLOG_PROJECT_NOTE)) {
+  if (
+    stagedFiles.some(needsProjectNote) &&
+    projectNoteLooksValid() &&
+    existsSync(BLOG_PROJECT_NOTE)
+  ) {
     const projectMtime = statSync(BLOG_PROJECT_NOTE).mtimeMs
     if (projectMtime >= newestRepoMtime) {
       updated.add(BLOG_PROJECT_NOTE)
@@ -240,7 +262,9 @@ function main() {
     process.exit(0)
   }
 
-  const existingFiles = new Set([BLOG_PROJECT_NOTE, BLOG_INVENTORY_NOTE].filter((file) => existsSync(file)))
+  const existingFiles = new Set(
+    [BLOG_PROJECT_NOTE, BLOG_INVENTORY_NOTE].filter((file) => existsSync(file))
+  )
   const updatedExternalFiles = collectUpdatedExternalFiles(stagedFiles)
   const fileContents = loadRepoFileContents(BLOG_REPO_ROOT)
   const result = evaluateKnowledgeSync({
@@ -262,9 +286,9 @@ function main() {
   process.exit(1)
 }
 
-if (process.argv[1] && normalizePath(fileURLToPath(import.meta.url)) === normalizePath(process.argv[1])) {
+if (
+  process.argv[1] &&
+  normalizePath(fileURLToPath(import.meta.url)) === normalizePath(process.argv[1])
+) {
   main()
 }
-
-
-

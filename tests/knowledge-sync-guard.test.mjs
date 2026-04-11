@@ -7,6 +7,7 @@ import {
   BLOG_PROJECT_NOTE,
   evaluateKnowledgeSync,
   normalizePath,
+  renderInventoryTable,
   validateAgentDocsContract,
 } from '../scripts/knowledge-sync-guard.mjs'
 
@@ -74,6 +75,26 @@ test('evaluateKnowledgeSync passes when required external notes are updated', ()
   assert.equal(result.ok, true)
 })
 
+test('renderInventoryTable tracks layout alongside other frontmatter fields', () => {
+  const table = renderInventoryTable([
+    {
+      title: 'Example Post',
+      slug: 'example-post',
+      date: '2026-04-11',
+      layout: 'PostMedium',
+      tags: "['networking']",
+      summary: 'Example summary',
+      source: 'data/blog/example-post.mdx',
+    },
+  ])
+
+  assert.match(table, /\| Title \| Slug \| Date \| Layout \| Tags \| Summary \| Source \|/)
+  assert.match(
+    table,
+    /\| Example Post \| example-post \| 2026-04-11 \| PostMedium \| \['networking'\] \| Example summary \| data\/blog\/example-post\.mdx \|/
+  )
+})
+
 test('pre-commit hook runs lint-staged and the knowledge sync check', async () => {
   const hook = await readFile(new URL('../.husky/pre-commit', import.meta.url), 'utf8')
 
@@ -112,6 +133,3 @@ test('current CLAUDE.md is a thin compatibility entrypoint', async () => {
   assert.match(claude, /AGENTS\.md/)
   assert.match(claude, /canonical source of truth/i)
 })
-
-
-

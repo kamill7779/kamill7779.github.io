@@ -1,4 +1,4 @@
-# CLAUDE.md �� Compatibility Entrypoint
+# CLAUDE.md - Compatibility Entrypoint
 
 This file exists for tool compatibility only.
 

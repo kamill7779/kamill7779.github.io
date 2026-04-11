@@ -31,6 +31,7 @@ Required fields to keep aligned:
 - title
 - slug
 - date
+- layout
 - tags
 - summary
 - source path

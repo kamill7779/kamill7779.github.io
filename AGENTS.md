@@ -56,7 +56,7 @@ When editing app or UI files:
 - Use the existing editorial MD3 direction
 - Prefer theme tokens over hard-coded colors
 - Preserve responsive behavior for nav, layouts, and article pages
-- Run `npm run build` after meaningful code changes
+- Run `npm run build` after meaningful code changes when the repo is on an NTFS volume; on Windows exFAT volumes, Next.js metadata route builds currently fail during webpack snapshotting
 
 ## 6. Knowledge Sync Contract
 
