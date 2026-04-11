@@ -9,7 +9,8 @@
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "check:knowledge-sync": "node ./scripts/knowledge-sync-guard.mjs"
   },
   "dependencies": {
     "@headlessui/react": "2.2.9",
@@ -69,10 +70,10 @@
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
-      "yarn eslint --fix"
+      "npx --no-install eslint --fix"
     ],
     "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
-      "yarn prettier --write"
+      "npx --no-install prettier --write"
     ]
   },
   "packageManager": "yarn@3.6.1"
