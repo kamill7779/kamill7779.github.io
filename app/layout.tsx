@@ -2,7 +2,7 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
-import { Inter, Fira_Code, JetBrains_Mono } from 'next/font/google'
+import { Inter, Source_Serif_4, JetBrains_Mono, Fira_Code } from 'next/font/google'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import TopNavBar from '@/components/TopNavBar'
@@ -18,6 +18,13 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+})
+
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-source-serif',
+  weight: ['400', '500', '600', '700'],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -78,45 +85,59 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${inter.variable} ${jetbrainsMono.variable} ${firaCode.variable} scroll-smooth`}
+      className={`${inter.variable} ${sourceSerif.variable} ${jetbrainsMono.variable} ${firaCode.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link
         rel="apple-touch-icon"
         sizes="76x76"
         href={`${basePath}/static/favicons/apple-touch-icon.png`}
+        precedence="default"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="32x32"
         href={`${basePath}/static/favicons/favicon-32x32.png`}
+        precedence="default"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="16x16"
         href={`${basePath}/static/favicons/favicon-16x16.png`}
+        precedence="default"
       />
-      <link rel="manifest" href={`${basePath}/static/favicons/site.webmanifest`} />
+      <link
+        rel="manifest"
+        href={`${basePath}/static/favicons/site.webmanifest`}
+        precedence="default"
+      />
       <link
         rel="mask-icon"
         href={`${basePath}/static/favicons/safari-pinned-tab.svg`}
-        color="#121212"
+        color="#1A1A1A"
+        precedence="default"
       />
-      <meta name="msapplication-TileColor" content="#f9f9fb" />
-      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9f9fb" />
-      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0a09" />
-      <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
+      <meta name="msapplication-TileColor" content="#FDFBF6" />
+      <meta name="theme-color" content="#FDFBF6" />
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        href={`${basePath}/feed.xml`}
+        precedence="default"
+      />
       <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet"
+        precedence="default"
       />
       <link
         href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css"
         rel="stylesheet"
+        precedence="default"
       />
-      <body className="bg-background font-body text-on-background selection:bg-primary selection:text-on-primary antialiased">
+      <body className="bg-background font-body text-on-background selection:bg-tertiary selection:text-on-tertiary antialiased">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <Script

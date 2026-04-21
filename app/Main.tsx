@@ -1,95 +1,343 @@
 import Link from 'next/link'
-import Tag from '@/components/Tag'
 import FadeIn from '@/components/FadeIn'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 
 const MAX_DISPLAY = 5
 
+// Voronoi-style decorative SVG pattern
+function VoronoiPattern() {
+  return (
+    <svg
+      viewBox="0 0 400 400"
+      className="h-full w-full opacity-80"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="voronoiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#3a3a3a" stopOpacity="0.6" />
+          <stop offset="50%" stopColor="#2a2a2a" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#1a1a1a" stopOpacity="0.3" />
+        </linearGradient>
+      </defs>
+      {/* Cell-like polygons simulating Voronoi diagram */}
+      <polygon
+        points="50,30 120,50 100,120 30,100"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.7"
+      />
+      <polygon
+        points="120,50 200,40 220,110 140,130 100,120"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+      <polygon
+        points="200,40 280,60 300,130 220,110"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.6"
+      />
+      <polygon
+        points="280,60 350,50 370,120 320,140 300,130"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.4"
+      />
+      <polygon
+        points="350,50 390,80 380,150 340,160 320,140 370,120"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+      <polygon
+        points="30,100 100,120 90,200 20,180"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.6"
+      />
+      <polygon
+        points="100,120 140,130 160,210 90,200"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.4"
+      />
+      <polygon
+        points="140,130 220,110 240,190 160,210"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.7"
+      />
+      <polygon
+        points="220,110 300,130 310,200 240,190"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+      <polygon
+        points="300,130 320,140 340,160 350,220 310,200"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.6"
+      />
+      <polygon
+        points="320,140 370,120 380,150 390,200 350,220 340,160"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.4"
+      />
+      <polygon
+        points="20,180 90,200 80,280 10,260"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+      <polygon
+        points="90,200 160,210 150,290 80,280"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.6"
+      />
+      <polygon
+        points="160,210 240,190 260,270 150,290"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.4"
+      />
+      <polygon
+        points="240,190 310,200 320,260 260,270"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.7"
+      />
+      <polygon
+        points="310,200 350,220 360,280 320,260"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+      <polygon
+        points="350,220 390,200 395,270 360,280"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.6"
+      />
+      <polygon
+        points="10,260 80,280 70,360 5,340"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.4"
+      />
+      <polygon
+        points="80,280 150,290 140,370 70,360"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+      <polygon
+        points="150,290 260,270 280,350 140,370"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.6"
+      />
+      <polygon
+        points="260,270 320,260 330,340 280,350"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.4"
+      />
+      <polygon
+        points="320,260 360,280 370,330 330,340"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.7"
+      />
+      <polygon
+        points="360,280 395,270 398,320 370,330"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+      <polygon
+        points="5,340 70,360 60,395 0,395"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.6"
+      />
+      <polygon
+        points="70,360 140,370 130,395 60,395"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.4"
+      />
+      <polygon
+        points="140,370 280,350 300,395 130,395"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+      <polygon
+        points="280,350 330,340 340,395 300,395"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.6"
+      />
+      <polygon
+        points="330,340 370,330 380,395 340,395"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.4"
+      />
+      <polygon
+        points="370,330 398,320 400,395 380,395"
+        fill="url(#voronoiGrad)"
+        stroke="#555"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+    </svg>
+  )
+}
+
 export default function Home({ posts }) {
   const featured = posts.slice(0, 2)
   const recent = posts.slice(0, MAX_DISPLAY)
 
   return (
-    <main className="mx-auto max-w-7xl px-8 pt-40 pb-24">
+    <main className="mx-auto max-w-6xl px-6 pt-32 pb-24 md:px-12">
       {/* Hero */}
       <FadeIn>
-        <header className="mb-32">
-          <div className="editorial-grid">
-            <div>
-              <p className="text-secondary mb-4 font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase">
-                The Curator&apos;s Desk
-              </p>
-            </div>
-            <div>
-              <h1 className="text-primary mb-8 max-w-2xl text-[3.5rem] leading-[1.1] font-black tracking-tighter">
-                Technical explorations into the architecture of the web.
-              </h1>
-              <div className="text-on-surface-variant max-w-xl text-lg leading-relaxed">
-                {siteMetadata.description}
-              </div>
+        <header className="mb-24 md:mb-32">
+          <div className="max-w-3xl">
+            <p className="text-on-surface-variant mb-6 font-[family-name:var(--font-jetbrains-mono)] text-xs tracking-[0.2em] uppercase">
+              {siteMetadata.author}&apos;s Blog
+            </p>
+            <h1 className="text-on-surface mb-8 font-[family-name:var(--font-source-serif)] text-4xl leading-[1.15] font-semibold tracking-tight md:text-5xl lg:text-6xl">
+              Exploring the architecture of the web, one post at a time.
+            </h1>
+            <div className="text-on-surface-variant max-w-xl text-lg leading-relaxed md:text-xl">
+              {siteMetadata.description}
             </div>
           </div>
         </header>
       </FadeIn>
 
+      {/* Divider */}
+      <div className="bg-outline-variant mb-16 h-px w-full md:mb-24" />
+
+      {/* Promo Card - Anthropic-style */}
+      <FadeIn delay={50}>
+        <section className="mb-20 md:mb-28">
+          <Link
+            href="/blog/tcp-reliable-transmission/"
+            className="group -mx-6 block cursor-pointer md:-mx-12"
+          >
+            <div className="relative overflow-hidden bg-[#1a1a1a] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] md:mx-12 md:rounded-2xl group-hover:md:mx-0 group-hover:md:rounded-none">
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {/* Left - Text */}
+                <div className="flex flex-col justify-center px-8 py-16 md:px-16 md:py-20">
+                  <h2 className="font-[family-name:var(--font-source-serif)] text-4xl leading-[1.1] font-semibold tracking-tight text-[#f5f0e8] md:text-5xl lg:text-[3.5rem]">
+                    TCP Reliable
+                    <br />
+                    Transmission
+                  </h2>
+                  <p className="mt-6 max-w-sm text-lg leading-relaxed text-[#a8a29e]">
+                    Deep dive into how TCP builds reliable data transfer over the unreliable IP
+                    layer.
+                  </p>
+                  <div className="mt-8">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#f5f0e8] px-5 py-2.5 text-sm font-medium text-[#1a1a1a] transition-all duration-300 group-hover:bg-[#e57035] group-hover:text-white">
+                      Continue reading
+                      <svg
+                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                {/* Right - Pattern */}
+                <div className="relative hidden md:block">
+                  <div className="absolute inset-0 p-8">
+                    <VoronoiPattern />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </section>
+      </FadeIn>
+
       {/* Featured */}
       {featured.length > 0 && (
         <FadeIn delay={100}>
-          <section className="mb-32">
-            <div className="editorial-grid mb-12 items-end">
-              <div>
-                <h2 className="text-secondary font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase">
-                  Featured Discourse
-                </h2>
-              </div>
-              <div className="bg-outline-variant/30 mb-1 h-px w-full"></div>
+          <section className="mb-20 md:mb-28">
+            <div className="mb-10 flex items-end justify-between">
+              <h2 className="text-on-surface-variant font-[family-name:var(--font-jetbrains-mono)] text-xs tracking-[0.2em] uppercase">
+                Featured
+              </h2>
             </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
               {featured.map((post, i) => {
                 const { slug, title, summary, tags } = post
-                const isFirst = i === 0
                 return (
-                  <Link
-                    key={slug}
-                    href={`/blog/${slug}`}
-                    className={`group relative cursor-pointer overflow-hidden rounded-xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
-                      isFirst
-                        ? 'bg-surface-container-low text-on-surface hover:bg-surface-container'
-                        : 'bg-primary-container text-on-primary-container'
-                    }`}
-                  >
-                    <div className="flex h-full flex-col justify-between">
+                  <Link key={slug} href={`/blog/${slug}`} className="group block cursor-pointer">
+                    <article className="flex h-full flex-col justify-between">
                       <div>
-                        <p
-                          className={`mb-6 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase ${
-                            isFirst ? 'text-secondary' : 'text-on-primary-fixed-variant'
-                          }`}
-                        >
+                        <p className="text-on-surface-variant mb-4 font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] tracking-[0.15em] uppercase">
                           {tags?.[0]?.toUpperCase() || 'BLOG'}
                         </p>
-                        <h3
-                          className={`mb-4 text-2xl font-bold tracking-tight transition-colors ${
-                            isFirst
-                              ? 'text-primary group-hover:text-on-surface'
-                              : 'text-on-primary-container'
-                          }`}
-                        >
+                        <h3 className="text-on-surface group-hover:text-tertiary mb-4 font-[family-name:var(--font-source-serif)] text-2xl font-semibold tracking-tight transition-colors md:text-[1.75rem]">
                           {title}
                         </h3>
-                        <p
-                          className={`mb-8 max-w-sm text-sm leading-relaxed ${
-                            isFirst ? 'text-on-surface-variant' : 'text-on-primary-fixed-variant'
-                          }`}
-                        >
+                        <p className="text-on-surface-variant mb-6 max-w-sm text-sm leading-relaxed">
                           {summary}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 font-[family-name:var(--font-manrope)] text-[0.7rem] font-bold">
-                        <span>READ FULL ARTICLE</span>
-                        <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                      <div className="flex items-center gap-2">
+                        <span className="bg-tertiary h-px w-0 transition-all duration-300 group-hover:w-8" />
+                        <span className="text-on-surface group-hover:text-tertiary font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] tracking-wider uppercase transition-colors">
+                          Read article
+                        </span>
                       </div>
-                    </div>
+                    </article>
                   </Link>
                 )
               })}
@@ -98,61 +346,64 @@ export default function Home({ posts }) {
         </FadeIn>
       )}
 
-      {/* Recent Logs */}
+      {/* Divider */}
+      <div className="bg-outline-variant mb-16 h-px w-full md:mb-24" />
+
+      {/* Recent Posts */}
       <FadeIn delay={200}>
-        <section className="max-w-5xl">
-          <div className="editorial-grid mb-16 items-end">
-            <div>
-              <h2 className="text-secondary font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase">
-                Recent Logs
-              </h2>
-            </div>
+        <section>
+          <div className="mb-10 flex items-end justify-between">
+            <h2 className="text-on-surface-variant font-[family-name:var(--font-jetbrains-mono)] text-xs tracking-[0.2em] uppercase">
+              Recent Posts
+            </h2>
           </div>
-          <div className="space-y-16">
-            {recent.map((post) => {
+          <div className="space-y-0">
+            {recent.map((post, index) => {
               const { slug, date, title, summary, tags } = post
+              const isLast = index === recent.length - 1
               return (
-                <Link
-                  key={slug}
-                  href={`/blog/${slug}`}
-                  className="editorial-grid group block cursor-pointer"
-                >
-                  <div className="pt-1">
-                    <time className="text-secondary font-[family-name:var(--font-manrope)] text-[0.75rem] tracking-widest uppercase">
-                      {formatDate(date, siteMetadata.locale).toUpperCase()}
-                    </time>
-                  </div>
-                  <div className="border-outline-variant/10 border-b pb-12 transition-all duration-200 group-hover:translate-x-1">
-                    <div className="mb-3 flex gap-2">
-                      {tags?.map((tag) => (
-                        <span
-                          key={tag}
-                          className="bg-surface-container-high text-on-surface rounded-full px-2 py-0.5 font-[family-name:var(--font-manrope)] text-[0.6rem]"
-                        >
-                          {tag.toUpperCase()}
-                        </span>
-                      ))}
+                <Link key={slug} href={`/blog/${slug}`} className="group block cursor-pointer">
+                  <article className={`py-8 ${!isLast ? 'border-outline-variant border-b' : ''}`}>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-[140px_1fr] md:gap-8">
+                      <div>
+                        <time className="text-on-surface-variant font-[family-name:var(--font-jetbrains-mono)] text-xs tracking-wider">
+                          {formatDate(date, siteMetadata.locale)}
+                        </time>
+                      </div>
+                      <div>
+                        <div className="mb-3 flex flex-wrap gap-2">
+                          {tags?.map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-on-surface-variant font-[family-name:var(--font-jetbrains-mono)] text-[0.6rem] tracking-wider uppercase"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <h4 className="text-on-surface group-hover:text-tertiary mb-3 font-[family-name:var(--font-source-serif)] text-xl font-semibold tracking-tight transition-colors md:text-[1.35rem]">
+                          {title}
+                        </h4>
+                        <p className="text-on-surface-variant max-w-2xl text-sm leading-relaxed">
+                          {summary}
+                        </p>
+                      </div>
                     </div>
-                    <h4 className="group-hover:text-primary text-on-surface mb-4 text-xl font-bold tracking-tight transition-colors">
-                      {title}
-                    </h4>
-                    <p className="text-on-surface-variant max-w-2xl leading-relaxed">{summary}</p>
-                  </div>
+                  </article>
                 </Link>
               )
             })}
           </div>
-          <div className="editorial-grid mt-12">
-            <div></div>
-            <div>
-              <Link
-                href="/blog"
-                className="text-on-surface flex items-center gap-4 text-sm font-bold tracking-tight transition-opacity hover:opacity-70"
-              >
-                VIEW FULL ARCHIVE
-                <span className="bg-primary h-px w-12"></span>
-              </Link>
-            </div>
+          <div className="mt-12">
+            <Link
+              href="/blog"
+              className="group hover:text-tertiary inline-flex items-center gap-3 text-sm font-medium tracking-tight transition-colors"
+            >
+              <span className="text-on-surface group-hover:text-tertiary transition-colors">
+                View all posts
+              </span>
+              <span className="bg-on-surface group-hover:bg-tertiary h-px w-6 transition-all group-hover:w-10" />
+            </Link>
           </div>
         </section>
       </FadeIn>
