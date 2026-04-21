@@ -75,7 +75,7 @@ export default function Page() {
         <div className="sticky top-40 lg:col-span-4">
           <div className="aspect-square overflow-hidden rounded-2xl">
             <Image
-              src="/static/images/avatar.jpg"
+              src="/static/images/avatar.png"
               width={400}
               height={400}
               alt="Kamil Liu"
