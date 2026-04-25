@@ -281,7 +281,7 @@
 }
 
 .footnotes {
-  @apply border-outline-variant mt-12 border-t pt-8 dark:border-gray-700;
+  @apply border-outline-variant mt-12 border-t pt-8;
 }
 
 .data-footnote-backref {

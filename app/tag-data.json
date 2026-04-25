@@ -1,12 +1,12 @@
 {
+  "docker": 1,
+  "vscode": 1,
+  "devcontainer": 1,
   "networking": 2,
-  "tcp": 1,
-  "computer-networks": 1,
-  "protocol": 1,
   "socket": 1,
   "liso": 1,
   "http": 1,
-  "docker": 1,
-  "vscode": 1,
-  "devcontainer": 1
+  "tcp": 1,
+  "computer-networks": 1,
+  "protocol": 1
 }

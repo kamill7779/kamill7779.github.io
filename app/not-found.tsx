@@ -3,7 +3,7 @@ import Link from 'next/link'
 export default function NotFound() {
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-7xl flex-col items-center justify-center px-8 pt-40 pb-24 text-center">
-      <span className="text-secondary mb-8 font-[family-name:var(--font-manrope)] text-[0.7rem] font-black tracking-[0.3em] uppercase">
+      <span className="text-secondary mb-8 font-[family-name:var(--font-inter)] text-[0.7rem] font-black tracking-[0.3em] uppercase">
         Error 404
       </span>
       <h1 className="text-primary mb-6 text-[6rem] leading-none font-black tracking-tighter">

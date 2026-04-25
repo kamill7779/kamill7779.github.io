@@ -6,7 +6,7 @@ const siteMetadata = {
   description:
     'Kamil Liu 的个人技术博客，探索全栈开发、系统架构与网络安全的交叉领域。分享 Spring Boot 微服务、Docker/DevOps、React/Vue 前端及 AI 集成的实践与思考。',
   language: 'zh-cn',
-  theme: 'system', // system, dark or light
+  theme: 'light', // system, dark or light
   siteUrl: 'https://kamill7779.github.io',
   siteRepo: 'https://github.com/kamill7779/kamill7779.github.io',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/avatar.png`,

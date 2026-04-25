@@ -5,222 +5,222 @@ import { formatDate } from 'pliny/utils/formatDate'
 
 const MAX_DISPLAY = 5
 
-// Voronoi-style decorative SVG pattern
+// Voronoi-style decorative SVG pattern — adapts to light/dark via currentColor
 function VoronoiPattern() {
   return (
     <svg
       viewBox="0 0 400 400"
-      className="h-full w-full opacity-80"
+      className="text-outline-variant h-full w-full opacity-80"
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
         <linearGradient id="voronoiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#3a3a3a" stopOpacity="0.6" />
-          <stop offset="50%" stopColor="#2a2a2a" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#1a1a1a" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0.15" />
+          <stop offset="50%" stopColor="currentColor" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0.04" />
         </linearGradient>
       </defs>
       {/* Cell-like polygons simulating Voronoi diagram */}
       <polygon
         points="50,30 120,50 100,120 30,100"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.7"
       />
       <polygon
         points="120,50 200,40 220,110 140,130 100,120"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
       <polygon
         points="200,40 280,60 300,130 220,110"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.6"
       />
       <polygon
         points="280,60 350,50 370,120 320,140 300,130"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.4"
       />
       <polygon
         points="350,50 390,80 380,150 340,160 320,140 370,120"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
       <polygon
         points="30,100 100,120 90,200 20,180"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.6"
       />
       <polygon
         points="100,120 140,130 160,210 90,200"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.4"
       />
       <polygon
         points="140,130 220,110 240,190 160,210"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.7"
       />
       <polygon
         points="220,110 300,130 310,200 240,190"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
       <polygon
         points="300,130 320,140 340,160 350,220 310,200"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.6"
       />
       <polygon
         points="320,140 370,120 380,150 390,200 350,220 340,160"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.4"
       />
       <polygon
         points="20,180 90,200 80,280 10,260"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
       <polygon
         points="90,200 160,210 150,290 80,280"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.6"
       />
       <polygon
         points="160,210 240,190 260,270 150,290"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.4"
       />
       <polygon
         points="240,190 310,200 320,260 260,270"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.7"
       />
       <polygon
         points="310,200 350,220 360,280 320,260"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
       <polygon
         points="350,220 390,200 395,270 360,280"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.6"
       />
       <polygon
         points="10,260 80,280 70,360 5,340"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.4"
       />
       <polygon
         points="80,280 150,290 140,370 70,360"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
       <polygon
         points="150,290 260,270 280,350 140,370"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.6"
       />
       <polygon
         points="260,270 320,260 330,340 280,350"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.4"
       />
       <polygon
         points="320,260 360,280 370,330 330,340"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.7"
       />
       <polygon
         points="360,280 395,270 398,320 370,330"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
       <polygon
         points="5,340 70,360 60,395 0,395"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.6"
       />
       <polygon
         points="70,360 140,370 130,395 60,395"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.4"
       />
       <polygon
         points="140,370 280,350 300,395 130,395"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
       <polygon
         points="280,350 330,340 340,395 300,395"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.6"
       />
       <polygon
         points="330,340 370,330 380,395 340,395"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.4"
       />
       <polygon
         points="370,330 398,320 400,395 380,395"
         fill="url(#voronoiGrad)"
-        stroke="#555"
+        stroke="currentColor"
         strokeWidth="0.5"
         opacity="0.5"
       />
@@ -261,21 +261,21 @@ export default function Home({ posts }) {
             href="/blog/tcp-reliable-transmission/"
             className="group -mx-6 block cursor-pointer md:-mx-12"
           >
-            <div className="relative overflow-hidden bg-[#1a1a1a] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] md:mx-12 md:rounded-2xl group-hover:md:mx-0 group-hover:md:rounded-none">
+            <div className="bg-inverse-surface dark:bg-surface-container-high relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] md:mx-12 md:rounded-2xl group-hover:md:mx-0 group-hover:md:rounded-none">
               <div className="grid grid-cols-1 md:grid-cols-2">
                 {/* Left - Text */}
                 <div className="flex flex-col justify-center px-8 py-16 md:px-16 md:py-20">
-                  <h2 className="font-[family-name:var(--font-source-serif)] text-4xl leading-[1.1] font-semibold tracking-tight text-[#f5f0e8] md:text-5xl lg:text-[3.5rem]">
+                  <h2 className="text-inverse-on-surface dark:text-on-surface font-[family-name:var(--font-source-serif)] text-4xl leading-[1.1] font-semibold tracking-tight md:text-5xl lg:text-[3.5rem]">
                     TCP Reliable
                     <br />
                     Transmission
                   </h2>
-                  <p className="mt-6 max-w-sm text-lg leading-relaxed text-[#a8a29e]">
+                  <p className="text-inverse-primary dark:text-on-surface-variant mt-6 max-w-sm text-lg leading-relaxed">
                     Deep dive into how TCP builds reliable data transfer over the unreliable IP
                     layer.
                   </p>
                   <div className="mt-8">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#f5f0e8] px-5 py-2.5 text-sm font-medium text-[#1a1a1a] transition-all duration-300 group-hover:bg-[#e57035] group-hover:text-white">
+                    <span className="bg-inverse-on-surface text-inverse-surface group-hover:bg-tertiary group-hover:text-on-tertiary dark:bg-on-surface dark:text-surface dark:group-hover:bg-tertiary dark:group-hover:text-on-tertiary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300">
                       Continue reading
                       <svg
                         className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
@@ -295,7 +295,7 @@ export default function Home({ posts }) {
                 </div>
                 {/* Right - Pattern */}
                 <div className="relative hidden md:block">
-                  <div className="absolute inset-0 p-8">
+                  <div className="text-outline-variant dark:text-surface-variant absolute inset-0 p-8">
                     <VoronoiPattern />
                   </div>
                 </div>

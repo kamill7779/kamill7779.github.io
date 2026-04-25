@@ -9,6 +9,7 @@ import TopNavBar from '@/components/TopNavBar'
 import Footer from '@/components/Footer'
 import ReadingProgress from '@/components/ReadingProgress'
 import ScrollTop from '@/components/ScrollTop'
+import ThemeColor from '@/components/ThemeColor'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import Script from 'next/script'
@@ -139,6 +140,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       />
       <body className="bg-background font-body text-on-background selection:bg-tertiary selection:text-on-tertiary antialiased">
         <ThemeProviders>
+          <ThemeColor />
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <Script
             async

@@ -8,8 +8,6 @@ interface Props {
 
 export default function AuthorLayout({ children, content }: Props) {
   return (
-    <div className="prose dark:prose-invert text-on-surface-variant max-w-none text-lg leading-[1.6] dark:text-stone-400">
-      {children}
-    </div>
+    <div className="prose text-on-surface-variant max-w-none text-lg leading-[1.6]">{children}</div>
   )
 }

@@ -35,7 +35,7 @@ export default function TableOfContents({ toc }: { toc: TocItem[] }) {
 
   return (
     <nav>
-      <h4 className="text-on-surface-variant mb-4 font-[family-name:var(--font-manrope)] text-[0.65rem] tracking-widest uppercase">
+      <h4 className="text-on-surface-variant mb-4 font-[family-name:var(--font-inter)] text-[0.65rem] tracking-widest uppercase">
         On this page
       </h4>
       <ul className="border-outline-variant/30 space-y-1 border-l">

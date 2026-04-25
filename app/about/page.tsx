@@ -60,10 +60,10 @@ export default function Page() {
       {/* Hero */}
       <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-12">
         <div className="lg:col-span-8">
-          <span className="text-secondary mb-6 block font-[family-name:var(--font-manrope)] text-xs tracking-widest uppercase">
+          <span className="text-on-surface-variant mb-6 block font-[family-name:var(--font-inter)] text-xs tracking-widest uppercase">
             About
           </span>
-          <h1 className="text-primary mb-12 text-[3.5rem] leading-[1.1] font-black tracking-tighter">
+          <h1 className="text-on-surface mb-12 text-[3.5rem] leading-[1.1] font-black tracking-tighter">
             Engineering AI
             <br />
             into production.
@@ -86,7 +86,7 @@ export default function Page() {
             {['AI Engineering', 'Backend', 'DevOps'].map((tag) => (
               <span
                 key={tag}
-                className="bg-surface-container-low text-on-surface-variant rounded-full px-3 py-1 font-[family-name:var(--font-manrope)] text-[0.65rem] font-bold tracking-wider"
+                className="bg-surface-container-low text-on-surface-variant rounded-full px-3 py-1 font-[family-name:var(--font-inter)] text-[0.65rem] font-bold tracking-wider"
               >
                 {tag}
               </span>
@@ -99,21 +99,21 @@ export default function Page() {
       <section className="mt-28">
         <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <h2 className="text-primary sticky top-40 text-2xl font-black tracking-tight">
+            <h2 className="text-on-surface sticky top-40 text-2xl font-black tracking-tight">
               Tech Stack
             </h2>
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:col-span-8">
             {skills.map((group) => (
               <div key={group.category} className="space-y-3">
-                <h4 className="text-secondary font-[family-name:var(--font-manrope)] text-xs font-bold tracking-wider uppercase">
+                <h4 className="text-on-surface-variant font-[family-name:var(--font-inter)] text-xs font-bold tracking-wider uppercase">
                   {group.category}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {group.items.map((item) => (
                     <span
                       key={item}
-                      className="bg-surface-container-low text-on-surface rounded-md px-3 py-1.5 font-[family-name:var(--font-manrope)] text-[0.7rem] tracking-wider"
+                      className="bg-surface-container-low text-on-surface rounded-md px-3 py-1.5 font-[family-name:var(--font-inter)] text-[0.7rem] tracking-wider"
                     >
                       {item}
                     </span>
@@ -129,7 +129,7 @@ export default function Page() {
       <section className="mt-24">
         <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <h2 className="text-primary sticky top-40 text-2xl font-black tracking-tight">
+            <h2 className="text-on-surface sticky top-40 text-2xl font-black tracking-tight">
               Experience
             </h2>
           </div>
@@ -139,11 +139,11 @@ export default function Page() {
                 <div className="mb-2 flex items-baseline justify-between">
                   <div>
                     <h3 className="text-on-surface text-lg font-bold">{exp.title}</h3>
-                    <p className="text-secondary font-[family-name:var(--font-manrope)] text-xs">
+                    <p className="text-on-surface-variant font-[family-name:var(--font-inter)] text-xs">
                       {exp.company}
                     </p>
                   </div>
-                  <span className="text-on-surface-variant font-[family-name:var(--font-manrope)] text-xs">
+                  <span className="text-on-surface-variant font-[family-name:var(--font-inter)] text-xs">
                     {exp.period}
                   </span>
                 </div>
@@ -160,7 +160,7 @@ export default function Page() {
       <section className="mt-24">
         <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <h2 className="text-primary sticky top-40 text-2xl font-black tracking-tight">
+            <h2 className="text-on-surface sticky top-40 text-2xl font-black tracking-tight">
               Projects
             </h2>
           </div>
@@ -169,7 +169,7 @@ export default function Page() {
               <div key={project.name} className="bg-surface-container-low rounded-xl p-6">
                 <div className="mb-2 flex items-baseline justify-between gap-4">
                   <h3 className="text-on-surface font-bold">{project.name}</h3>
-                  <span className="bg-primary/10 text-primary shrink-0 rounded px-2 py-0.5 font-[family-name:var(--font-manrope)] text-[0.6rem] font-bold">
+                  <span className="bg-primary/10 text-primary shrink-0 rounded px-2 py-0.5 font-[family-name:var(--font-inter)] text-[0.6rem] font-bold">
                     {project.role}
                   </span>
                 </div>
@@ -180,7 +180,7 @@ export default function Page() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="bg-surface-container text-on-surface-variant rounded px-2 py-0.5 font-[family-name:var(--font-manrope)] text-[0.6rem] tracking-wider uppercase"
+                      className="bg-surface-container text-on-surface-variant rounded px-2 py-0.5 font-[family-name:var(--font-inter)] text-[0.6rem] tracking-wider uppercase"
                     >
                       {tag}
                     </span>
@@ -194,7 +194,7 @@ export default function Page() {
 
       {/* Connect */}
       <div className="mx-auto mt-28 max-w-2xl text-center">
-        <h2 className="text-primary mb-8 text-3xl font-black tracking-tighter">Get in Touch</h2>
+        <h2 className="text-on-surface mb-8 text-3xl font-black tracking-tighter">Get in Touch</h2>
         <div className="flex justify-center gap-4">
           <a
             href={`mailto:${siteMetadata.email || '#'}`}

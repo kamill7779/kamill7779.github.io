@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
+import ThemeSwitch from './ThemeSwitch'
 
 export default function TopNavBar() {
   const pathname = usePathname()
@@ -38,10 +39,14 @@ export default function TopNavBar() {
               </Link>
             )
           })}
+          <div className="border-outline-variant ml-2 border-l pl-6">
+            <ThemeSwitch />
+          </div>
         </div>
 
-        {/* Mobile menu button */}
-        <div className="flex items-center gap-4 md:hidden">
+        {/* Mobile: theme switch + menu button */}
+        <div className="flex items-center gap-3 md:hidden">
+          <ThemeSwitch />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="text-on-surface-variant hover:text-on-surface rounded-full p-2 transition-colors"
