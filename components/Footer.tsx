@@ -18,7 +18,8 @@ export default function Footer() {
               {siteMetadata.title}
             </Link>
             <p className="text-on-surface-variant mt-3 max-w-xs text-sm leading-relaxed">
-              {siteMetadata.description}
+              Building agents, shipping systems, and exploring how AI reshapes the way we learn,
+              work, and live.
             </p>
           </div>
 
@@ -116,24 +117,7 @@ export default function Footer() {
             &copy; {currentYear} {siteMetadata.author}
           </div>
           <div className="text-on-surface-variant text-[0.65rem] tracking-wider">
-            Built with{' '}
-            <a
-              href="https://nextjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-on-surface transition-colors"
-            >
-              Next.js
-            </a>
-            {' & '}
-            <a
-              href="https://tailwindcss.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-on-surface transition-colors"
-            >
-              Tailwind
-            </a>
+            Crafted with curiosity
           </div>
         </div>
       </div>

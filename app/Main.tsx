@@ -242,8 +242,13 @@ export default function Home({ posts }) {
               {siteMetadata.author}&apos;s Blog
             </p>
             <h1 className="text-on-surface mb-8 font-[family-name:var(--font-source-serif)] text-4xl leading-[1.15] font-semibold tracking-tight md:text-5xl lg:text-6xl">
-              Exploring the architecture of the web, one post at a time.
+              Think in agents.
+              <br />
+              Build with systems.
+              <br />
+              Live with AI.
             </h1>
+            <div className="bg-tertiary mb-6 h-px w-12"></div>
             <div className="text-on-surface-variant max-w-xl text-lg leading-relaxed md:text-xl">
               {siteMetadata.description}
             </div>

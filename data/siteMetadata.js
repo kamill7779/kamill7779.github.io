@@ -4,7 +4,7 @@ const siteMetadata = {
   author: 'Kamil Liu',
   headerTitle: "Kamil's Blog",
   description:
-    'Kamil Liu 的个人技术博客，探索全栈开发、系统架构与网络安全的交叉领域。分享 Spring Boot 微服务、Docker/DevOps、React/Vue 前端及 AI 集成的实践与思考。',
+    '探索 AI 赋能学习、工作、生活的最佳实践。记录 Agent 工程化落地与云原生系统的实战经验。',
   language: 'zh-cn',
   theme: 'light', // system, dark or light
   siteUrl: 'https://kamill7779.github.io',
