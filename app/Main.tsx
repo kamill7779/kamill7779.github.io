@@ -366,28 +366,48 @@ export default function Home({ posts }) {
             {recent.map((post, index) => {
               const { slug, date, title, summary, tags } = post
               const isLast = index === recent.length - 1
+              const dateObj = new Date(date)
+              const year = dateObj.getFullYear()
+              const monthDay = dateObj.toLocaleDateString(siteMetadata.locale, {
+                month: 'short',
+                day: 'numeric',
+              })
+              const num = String(index + 1).padStart(2, '0')
               return (
                 <Link key={slug} href={`/blog/${slug}`} className="group block cursor-pointer">
                   <article className={`py-8 ${!isLast ? 'border-outline-variant border-b' : ''}`}>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-[140px_1fr] md:gap-8">
-                      <div>
-                        <time className="text-on-surface-variant font-[family-name:var(--font-jetbrains-mono)] text-xs tracking-wider">
-                          {formatDate(date, siteMetadata.locale)}
-                        </time>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-[80px_60px_1fr] md:gap-6">
+                      {/* Index */}
+                      <div className="hidden md:block">
+                        <span className="text-on-surface-variant/40 font-[family-name:var(--font-jetbrains-mono)] text-2xl font-light tracking-tighter">
+                          {num}
+                        </span>
                       </div>
+                      {/* Date */}
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-on-surface font-[family-name:var(--font-jetbrains-mono)] text-xs font-medium tracking-wider">
+                          {year}
+                        </span>
+                        <span className="text-on-surface-variant font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] tracking-wider">
+                          {monthDay}
+                        </span>
+                      </div>
+                      {/* Content */}
                       <div>
                         <div className="mb-3 flex flex-wrap gap-2">
                           {tags?.map((tag) => (
                             <span
                               key={tag}
-                              className="text-on-surface-variant font-[family-name:var(--font-jetbrains-mono)] text-[0.6rem] tracking-wider uppercase"
+                              className="bg-surface-container-low text-on-surface-variant rounded-full px-2.5 py-0.5 font-[family-name:var(--font-inter)] text-[0.6rem] tracking-wider"
                             >
                               {tag}
                             </span>
                           ))}
                         </div>
-                        <h4 className="text-on-surface group-hover:text-tertiary mb-3 font-[family-name:var(--font-source-serif)] text-xl font-semibold tracking-tight transition-colors md:text-[1.35rem]">
-                          {title}
+                        <h4 className="group-hover:text-tertiary mb-3 font-[family-name:var(--font-source-serif)] text-xl font-semibold tracking-tight transition-colors md:text-[1.35rem]">
+                          <span className="from-tertiary to-tertiary bg-gradient-to-r bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-all duration-500 group-hover:bg-[length:100%_1px]">
+                            {title}
+                          </span>
                         </h4>
                         <p className="text-on-surface-variant max-w-2xl text-sm leading-relaxed">
                           {summary}
