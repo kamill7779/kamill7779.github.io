@@ -44,15 +44,15 @@ export default function Page() {
 
   const skills = [
     {
-      category: 'Backend',
-      items: ['Java · Spring Boot', 'Go', 'MySQL · Redis', 'gRPC · Consul'],
+      category: 'Agent & AI',
+      items: ['LLM Integration', 'Prompt Engineering', 'Function Calling', 'Multi-Agent'],
     },
     {
-      category: 'AI Engineering',
-      items: ['LLM Integration', 'OCR', 'AI SDK', 'Prompt Engineering'],
+      category: 'Languages',
+      items: ['TypeScript', 'Go', 'Python', 'Java'],
     },
-    { category: 'DevOps', items: ['Docker · K3s', 'GitHub Actions', 'Nginx', 'Linux'] },
-    { category: 'Frontend', items: ['React', 'Vue', 'Tailwind CSS', 'Electron'] },
+    { category: 'Cloud Native', items: ['Docker · K8s', 'gRPC', 'Microservices', 'Nginx'] },
+    { category: 'DevOps & SRE', items: ['GitHub Actions', 'Linux', 'Monitoring', 'K3s'] },
   ]
 
   return (
@@ -64,9 +64,9 @@ export default function Page() {
             About
           </span>
           <h1 className="text-on-surface mb-12 text-[3.5rem] leading-[1.1] font-black tracking-tighter">
-            Engineering AI
+            Building Agents.
             <br />
-            into production.
+            Shipping Systems.
           </h1>
           <AuthorLayout content={mainContent}>
             <MDXLayoutRenderer code={author.body.code} />
@@ -83,7 +83,7 @@ export default function Page() {
             />
           </div>
           <div className="mt-6 flex flex-wrap gap-2">
-            {['AI Engineering', 'Backend', 'DevOps'].map((tag) => (
+            {['Agent Development', 'Cloud Native', 'DevOps'].map((tag) => (
               <span
                 key={tag}
                 className="bg-surface-container-low text-on-surface-variant rounded-full px-3 py-1 font-[family-name:var(--font-inter)] text-[0.65rem] font-bold tracking-wider"
