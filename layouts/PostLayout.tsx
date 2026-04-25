@@ -21,23 +21,20 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
 
   return (
     <main className="pt-28 pb-24">
-      {/* Back link */}
-      <div className="mx-auto mb-16 max-w-6xl px-6 md:px-12">
-        <Link
-          href="/blog"
-          className="group text-on-surface-variant hover:text-tertiary inline-flex items-center gap-2 text-sm transition-colors"
-        >
-          <span className="h-px w-4 bg-current transition-all group-hover:w-6" />
-          <span className="font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] tracking-wider uppercase">
-            Back
-          </span>
-        </Link>
-      </div>
-
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 md:px-12 lg:grid-cols-[200px_1fr_200px]">
+      <div className="mx-auto grid max-w-[88rem] grid-cols-1 gap-6 px-6 md:px-12 lg:grid-cols-[minmax(120px,160px)_1fr_minmax(120px,160px)]">
         {/* Left sidebar — meta */}
         <aside className="order-2 lg:order-1">
           <div className="space-y-10 lg:sticky lg:top-28">
+            {/* Back link */}
+            <Link
+              href="/blog"
+              className="group text-on-surface-variant hover:text-tertiary inline-flex items-center gap-2 text-sm transition-colors"
+            >
+              <span className="h-px w-4 bg-current transition-all group-hover:w-6" />
+              <span className="font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] tracking-wider uppercase">
+                Back
+              </span>
+            </Link>
             {/* Author */}
             <div className="space-y-3">
               <h4 className="text-on-surface-variant font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] tracking-widest uppercase">
@@ -153,9 +150,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           )}
         </article>
 
-        {/* Right — TOC */}
+        {/* Right — TOC (desktop only) */}
         {toc && toc.length > 0 && (
-          <aside className="order-3">
+          <aside className="order-3 hidden lg:block">
             <nav className="no-scrollbar lg:sticky lg:top-28 lg:max-h-[calc(100vh-10rem)] lg:overflow-y-auto">
               <TableOfContents toc={toc} />
             </nav>

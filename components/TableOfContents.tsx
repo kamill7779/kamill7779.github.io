@@ -10,7 +10,7 @@ interface TocItem {
 
 export default function TableOfContents({ toc }: { toc: TocItem[] }) {
   const [activeId, setActiveId] = useState<string>('')
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(true)
 
   const getId = (url: string) => url.replace(/^#/, '')
 
