@@ -1,0 +1,410 @@
+---
+title: '让大模型稳定输出 JSON：从简单尝试到可靠方案'
+date: '2026-04-28'
+tags: ['llm', 'json', 'api']
+summary: 从一句 Prompt 开始，逐级掌握让大模型输出正确 JSON 的各种方法。
+---
+
+## 0. 写在前面
+
+这篇文章的目标很明确：**搞清楚怎么让大模型稳定地输出格式正确、字段完整的 JSON，并且在你的实际项目里真的顶用。**
+
+> 真正的麻烦往往不是"模型不输出 JSON"，而是"字段名拼错了""类型对不上""嵌套结构歪了"这种看起来小、但在实际使用中会炸的问题。
+
+我们按"从简单到困难"的顺序，把每种方案都过一遍，最后把容错、重试、降级这些工程兜底串起来，形成一条完整的链路。
+
+---
+
+## 1. 逐级进阶：六种方式让模型输出 JSON
+
+### 1.1 直接要求
+
+最朴素的做法：**Prompt 里写一句"请输出 JSON 格式"**。
+
+```text
+内容：Kamil 是一名后端工程师，写过三篇博客。
+请输出 JSON 格式。
+```
+
+模型大概率会给你类似这样的答复：
+
+```json
+好的，这是你要的 JSON：
+
+{
+  "name": "Kamil",
+  "role": "后端工程师",
+  "blog_count": 3
+}
+```
+
+问题很明显：
+
+- **前后带了闲聊**（"好的，这是你要的 JSON："）
+- **JSON 可能被包在 Markdown 代码块里** ` ```json ... ``` `
+- **字段名靠模型"自觉"**——它可能写 `blogCount`，也可能写 `blog_count`
+
+> 成功率大概 60-70%，Demo 够用，但不能依赖它。
+
+---
+
+### 1.2 Few-shot：给示例，说清要求
+
+第二步是**给出明确的输入输出示例**，并**描述字段含义和类型**。
+
+```text
+你需要从以下文本中提取结构化信息，输出 JSON。
+字段说明：name (string) 姓名、role (string) 职业、blog_count (number) 整数。
+
+输入："张三是一名前端工程师，写过五篇博客。"
+输出：{"name": "张三", "role": "前端工程师", "blog_count": 5}
+
+现在轮到你了：
+输入："Kamil 是一名后端工程师，写过三篇博客。"
+```
+
+效果好了不少：
+
+```json
+{ "name": "Kamil", "role": "后端工程师", "blog_count": 3 }
+```
+
+但局限还在：**字段一多模型就"忘"**，类型约束全凭文字描述，没有任何强制机制。
+
+> Few-shot 能提升 10-20% 准确率，但本质还是"劝"，不是"管"。
+
+---
+
+### 1.3 JSON Mode：管住格式
+
+进入 API 层面。`response_format: { type: "json_object" }` 强制模型输出合法 JSON。
+
+```typescript
+import OpenAI from 'openai'
+
+const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+
+const response = await client.chat.completions.create({
+  model: 'gpt-4o',
+  messages: [
+    { role: 'system', content: '你是一个结构化提取助手，只输出 JSON。' },
+    { role: 'user', content: '内容：Kamil 是一名后端工程师，写过三篇博客。' },
+  ],
+  response_format: { type: 'json_object' },
+})
+
+console.log(response.choices[0].message.content)
+// => {"name": "Kamil", "role": "后端工程师", "blog_count": 3}
+```
+
+> **`json_object` 保证了你拿到的**一定**是合法 JSON。**这一点是质的飞跃。
+
+但剩余问题：
+
+- 字段名偶尔不稳定（`blogs_count` vs `blogCount`）
+- 类型不保证（`blog_count` 可能是字符串 `"3"`）
+- 嵌套结构可能偏差
+
+> JSON Mode 解决了"格式合法性"，但管不了"语义正确性"。
+
+---
+
+### 1.4 Function Calling：管住参数
+
+**定义函数名 + 参数 Schema，让模型把参数填进去。**
+
+```typescript
+const response = await client.chat.completions.create({
+  model: 'gpt-4o',
+  messages: [{ role: 'user', content: 'Kamil 是一名后端工程师，写过三篇博客。' }],
+  tools: [
+    {
+      type: 'function',
+      function: {
+        name: 'extract_person',
+        parameters: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            role: { type: 'string' },
+            blog_count: { type: 'integer' },
+          },
+          required: ['name', 'role', 'blog_count'],
+        },
+      },
+    },
+  ],
+  tool_choice: { type: 'function', function: { name: 'extract_person' } },
+})
+
+const args = JSON.parse(response.choices[0].message.tool_calls![0].function.arguments)
+// => { name: "Kamil", role: "后端工程师", blog_count: 3 }
+```
+
+`required` 和 `type` 对模型有真实约束力，API 层还会校验完整性。但**参数值可能瞎编**，而且语义上更偏向"工具调用"，纯数据提取时有点绕。
+
+---
+
+### 1.5 Structured Output：一步到位
+
+**直接用 `json_schema` 绑定输出结构，不包装成函数。** 这是目前纯数据提取场景的最优解。
+
+```typescript
+const response = await client.chat.completions.create({
+  model: 'gpt-4o',
+  messages: [{ role: 'user', content: 'Kamil 是一名后端工程师，写过三篇博客。' }],
+  response_format: {
+    type: 'json_schema',
+    json_schema: {
+      name: 'extract_person',
+      strict: true,
+      schema: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          role: { type: 'string' },
+          blog_count: { type: 'integer' },
+        },
+        required: ['name', 'role', 'blog_count'],
+        additionalProperties: false,
+      },
+    },
+  },
+})
+```
+
+**搭配 Zod（TypeScript）或 Pydantic（Python）做类型安全：**
+
+```typescript
+import { z } from 'zod'
+import { zodResponseFormat } from 'openai/helpers/zod'
+
+const ExtractedPerson = z.object({
+  name: z.string(),
+  role: z.string(),
+  blog_count: z.number().int(),
+})
+
+const response = await client.beta.chat.completions.parse({
+  model: 'gpt-4o',
+  messages: [{ role: 'user', content: 'Kamil 是一名后端工程师，写过三篇博客。' }],
+  response_format: zodResponseFormat(ExtractedPerson, 'extract_person'),
+})
+
+const parsed = response.choices[0].message.parsed
+// 类型安全，parsed.name 是 string，parsed.blog_count 是 number
+if (!parsed) {
+  // Schema 校验失败
+}
+```
+
+```python
+from openai import OpenAI
+from pydantic import BaseModel
+
+class ExtractedPerson(BaseModel):
+    name: str
+    role: str
+    blog_count: int
+
+client = OpenAI()
+response = client.beta.chat.completions.parse(
+    model="gpt-4o",
+    messages=[
+        {"role": "user", "content": "Kamil 是一名后端工程师，写过三篇博客。"}
+    ],
+    response_format=ExtractedPerson,
+)
+person = response.choices[0].message.parsed
+# => ExtractedPerson(name='Kamil', role='后端工程师', blog_count=3)
+```
+
+> Structured Output 不需要伪装成函数，直接声明输出结构，API 和客户端双重保障。
+
+---
+
+### 1.6 约束解码：从 Token 层面卡死
+
+前面的方案都是"生成完再校验"，而约束解码是在**生成阶段就直接卡死**——每一步只允许模型从"符合 JSON Schema 语法"的 token 中选。
+
+这需要推理框架支持（OpenAI 系不可用）：
+
+| 方案                 | 适用                        |
+| -------------------- | --------------------------- |
+| `outlines`（Python） | `vLLM` / `HuggingFace`      |
+| `guidance`（Python） | `llama.cpp` / `HuggingFace` |
+| `llama.cpp grammar`  | 自部署 `llama.cpp`          |
+
+一个 `outlines` 的最小示例：
+
+```python
+from outlines import models, generate
+from pydantic import BaseModel
+
+class Person(BaseModel):
+    name: str
+    role: str
+    blog_count: int
+
+model = models.transformers("Qwen/Qwen2.5-7B-Instruct")
+generator = generate.json(model, Person)
+result = generator("Kamil 是一名后端工程师，写过三篇博客。")
+# => Person(name='Kamil', role='后端工程师', blog_count=3)
+# 不需要事后校验——它根本就不可能生成非法内容
+```
+
+---
+
+### 1.7 方案对比收束
+
+| 方案              | 格式 | 结构 | 类型 | 上手难度 | 适用          |
+| ----------------- | ---- | ---- | ---- | -------- | ------------- |
+| 直接 Prompt       | ❌   | ❌   | ❌   | ★        | 一次性脚本    |
+| Few-shot          | △    | ❌   | ❌   | ★★       | 简单提取      |
+| JSON Mode         | ✅   | ❌   | ❌   | ★★       | 快速原型      |
+| Function Calling  | ✅   | ✅   | △    | ★★★      | 工具调用      |
+| Structured Output | ✅   | ✅   | ✅   | ★★★      | 数据提取/生成 |
+| 约束解码          | ✅   | ✅   | ✅   | ★★★★★    | 自部署        |
+
+---
+
+## 2. 容错与修复：当输出不那么完美
+
+前面的方案管住了"正常情况"。但任何方案都不敢说 100%，接下来讲怎么处理"掉链子"的时候。
+
+### 2.1 正则兜底提取
+
+最朴素的兜底：把 JSON 从闲聊里抠出来。
+
+````typescript
+function extractJson(text: string): string | null {
+  const blockMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/)
+  if (blockMatch) return blockMatch[1].trim()
+  const match = text.match(/\{[\s\S]*\}|\[[\s\S]*\]/)
+  return match ? match[0] : null
+}
+````
+
+> 不管模型在前面写了"好的"还是在后面写了"希望对你有所帮助"，先把 JSON 部分摘出来再说。
+
+### 2.2 json_repair 自动修复
+
+`json_repair` 这个库能自动修复 LLM 常见的 JSON 小毛病——尾逗号、未引号 key、单引号。
+
+```python
+from json_repair import repair_json
+
+bad = '''{
+  name: "Kamil",
+  "role": '后端工程师',
+  "blog_count": 3,
+}'''
+
+repaired = repair_json(bad)
+# => '{"name": "Kamil", "role": "后端工程师", "blog_count": 3}'
+import json
+parsed = json.loads(repaired)
+print(parsed["name"])  # => Kamil
+```
+
+| 常见错误                    | `json_repair` |
+| --------------------------- | ------------- |
+| 未引号 key（`{name: "K"}`） | ✅            |
+| 单引号（`{'key': 'v'}`）    | ✅            |
+| 尾逗号（`"v",}`）           | ✅            |
+| 注释（`// 这是注释`）       | ✅            |
+
+### 2.3 流式增量解析
+
+流式输出时 JSON 是分片到达的，`partial-json` 让每一帧都能读到当前已有的结构：
+
+```typescript
+import { PartialJSON } from 'partial-json'
+
+const parser = new PartialJSON()
+let fullJson = ''
+// ... stream loop
+for await (const chunk of stream) {
+  fullJson += chunk.choices[0]?.delta?.content || ''
+  const partial = parser.parse(fullJson)
+  // partial 是当前帧下"能解析多少是多少"的对象
+}
+```
+
+> 以上三步可以配成一条简单管道：**正则提取 → json_repair → JSON.parse**，大部分格式问题都能兜住。
+
+---
+
+## 3. 重试与降级
+
+格式修复不了的时候，让模型再来一次。
+
+### 3.1 截断检测
+
+`finish_reason === "length"` 说明输出被 `max_tokens` 截断了——JSON 大概率不完整。加大 `max_tokens` 或者把请求拆分成多个步骤是两种常见的处理思路。
+
+### 3.2 错误回传：让模型知道"错哪了"
+
+**不要盲重试。** 把 `JSON.parse` 的错误信息直接喂回模型，是简单且有效的策略：
+
+```typescript
+for (let attempt = 0; attempt <= 3; attempt++) {
+  const res = await client.chat.completions.create({
+    /* ... */
+  })
+  const raw = res.choices[0].message.content!
+  try {
+    return JSON.parse(raw)
+  } catch (e) {
+    messages.push(
+      { role: 'assistant', content: raw },
+      { role: 'user', content: `JSON 解析失败：${e.message}。请只输出修正后的 JSON。` }
+    )
+  }
+}
+```
+
+> 模型看到"你这里少了个引号"比看到"请重试"的修正成功率高得多。
+
+### 3.3 其他思路（不展开代码）
+
+- **温度退火**：重试时逐步降 temperature（`0.3 → 0.1 → 0`），让模型"越来越保守"
+- **Schema 降级**：复杂 Schema 一直失败时，退回到简化版本（比如枚举变自由文本，嵌套变扁平），拿到结果后再做后处理
+
+---
+
+## 4. 收束：从学到用的思考
+
+### 4.1 把链路串起来
+
+实际使用时，流程可以长这样：
+
+```
+请求
+  ├─ Structured Output（带 Schema）
+  ├─ 解析成功 → 返回
+  ├─ 解析失败 → 正则提取 → json_repair → JSON.parse
+  ├─ 仍失败 → 错误回传重试（降 temperature）
+  ├─ 仍失败 → 降级 Schema
+  └─ 记录每次的结果，方便回头复盘
+```
+
+### 4.2 建立自己的"监控感"
+
+不需要上来就搭 Prometheus + Grafana，但至少要记四个数：
+
+| 指标          | 含义                                | 注意时机                          |
+| ------------- | ----------------------------------- | --------------------------------- |
+| JSON 合法率   | 输出是合法 JSON 的比例              | 低于 95% 就该看了                 |
+| Schema 匹配率 | 字段名和类型都对的比例              | 低于 90% 说明 Schema 可能太复杂   |
+| 截断率        | `finish_reason === 'length'` 的比例 | 高于 5% 说明 `max_tokens` 太小    |
+| 重试率        | 触发重试的请求比例                  | 超过 10% 说明选型或 Schema 有问题 |
+
+把这几个数埋进你的请求封装里，定期瞄一眼，趋势比绝对值重要。
+
+### 4.3 选型参考
+
+- **Demo / 一次性脚本**：JSON Mode（一行参数搞定）
+- **工具调用**：Function Calling（天选之子）
+- **稳定数据提取**：Structured Output + Zod/Pydantic + 容错兜底 + 错误回传重试
+- **自部署高可靠**：约束解码（从 token 层面解决问题）

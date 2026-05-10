@@ -8,5 +8,8 @@
   "http": 1,
   "tcp": 1,
   "computer-networks": 1,
-  "protocol": 1
+  "protocol": 1,
+  "llm": 1,
+  "json": 1,
+  "api": 1
 }
